@@ -12,29 +12,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
     // Set up scene, camera, and renderer
-    var color1=0x00ff00
-    var color2=0xff0000
+    var color1 = 0x00ff00;
+    var color2 = 0xff0000;
+    
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // Create the cube grid
-    var grid = new THREE.Group();
+    // Create the cube grids
     var cubeSize = 1.5;
-
-    for (var i = 0; i <= 1; i++) {
-      for (var j = 0; j <= 1; j++) {
-        var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-        var material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-        var cube = new THREE.Mesh(geometry, material);
-        cube.position.set(i * cubeSize * 1.5, j * cubeSize * 1.5, 0);
-        grid.add(cube);
-      }
-    }
-
-    scene.add(grid);
+    var gridLeft = createGrid(-1.5, 0, color1);
+    var gridRight = createGrid(1.5, 0, color2);
+    
+    scene.add(gridLeft);
+    scene.add(gridRight);
 
     // Set up lighting
     var light = new THREE.PointLight(0xffffff, 1);
@@ -45,19 +38,34 @@
     camera.position.z = 5;
 
     // Animation variables
-
     var rockingSpeed = 0.02;
     var rockingAngle = 0;
+
+    // Helper function to create a cube grid
+    function createGrid(x, y, color) {
+      var grid = new THREE.Group();
+
+      for (var i = 0; i <= 1; i++) {
+        for (var j = 0; j <= 1; j++) {
+          var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+          var material = new THREE.MeshPhongMaterial({ color: color });
+          var cube = new THREE.Mesh(geometry, material);
+          cube.position.set(x + i * cubeSize * 1.5, y + j * cubeSize * 1.5, 0);
+          grid.add(cube);
+        }
+      }
+
+      return grid;
+    }
 
     // Render loop
     function animate() {
       requestAnimationFrame(animate);
 
       // Update grid rotation and rocking
-      grid.rotation.y = Math.sin(rockingAngle)/10;
-      //grid.rotation.y += rotationSpeed;
+      gridLeft.rotation.y = Math.sin(rockingAngle) / 10;
+      gridRight.rotation.y = Math.sin(rockingAngle) / 10;
       rockingAngle += rockingSpeed;
-      //grid.position.y = Math.sin(rockingAngle) * 0.5;
 
       renderer.render(scene, camera);
     }
