@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Rotating Cube</title>
+  <title>Rotating Cube Grid</title>
   <style>
     body { margin: 0; }
     canvas { display: block; }
@@ -18,11 +18,21 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // Create the cube
-    var geometry = new THREE.BoxGeometry(1, 1, 1);
-    var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    var cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    // Create the cube grid
+    var grid = new THREE.Group();
+    var cubeSize = 1.5;
+
+    for (var i = 0; i <= 1; i++) {
+      for (var j = 0; j <= 1; j++) {
+        var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        var cube = new THREE.Mesh(geometry, material);
+        cube.position.set(i * cubeSize * 1.5, j * cubeSize * 1.5, 0);
+        grid.add(cube);
+      }
+    }
+
+    scene.add(grid);
 
     // Set initial camera position
     camera.position.z = 5;
@@ -30,8 +40,8 @@
     // Render loop
     function animate() {
       requestAnimationFrame(animate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+      grid.rotation.x += 0.01;
+      grid.rotation.y += 0.01;
       renderer.render(scene, camera);
     }
 
