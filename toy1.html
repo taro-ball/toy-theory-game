@@ -74,10 +74,36 @@
           };
           cube.onClick = cube.userData.onClick;
           grid.add(cube);
+
+          var labelTexture = createLabelTexture('Label', 32, '#2222ff');
+          var labelMaterial = new THREE.MeshBasicMaterial({ map: labelTexture });
+          var labelMesh = new THREE.Mesh(geometry, labelMaterial);
+          labelMesh.position.copy(cube.position);
+          labelMesh.position.z += cubeSize * 0.1; // Position the label slightly above the cube
+          grid.add(labelMesh);
         }
       }
 
       return grid;
+    }
+
+    function createLabelTexture(text, fontSize, color) {
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      var width = 256;
+      var height = 256;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      context.font = fontSize + 'px Arial';
+      context.textAlign = 'center';
+      context.textBaseline = 'middle';
+      context.fillStyle = color;
+      context.fillText(text, width / 2, height / 2);
+
+      var texture = new THREE.CanvasTexture(canvas);
+      return texture;
     }
 
     // Function to toggle cubes based on a pattern
