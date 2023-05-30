@@ -23,8 +23,8 @@
 
     // Create the cube grids
     var cubeSize = 1;
-    var gridLeft = createGrid(-1.5, 0, color1, color2);
-    var gridRight = createGrid(1.5, 0, color2, color1);
+    var gridLeft = createGrid(-2.5, 0, color1, color2);
+    var gridRight = createGrid(2.5, 0, color2, color1);
 
     scene.add(gridLeft);
     scene.add(gridRight);
@@ -44,29 +44,39 @@
 
     // Helper function to create a cube grid
     function createGrid(x, y, color1, color2) {
-  var grid = new THREE.Group();
-  var color = color1; // Start with color1
+      var grid = new THREE.Group();
+      var color = color1; // Start with color1
 
-  for (var i = 0; i <= 1; i++) {
-    for (var j = 0; j <= 1; j++) {
-      var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-      var material = new THREE.MeshPhongMaterial({ color: color });
-      var cube = new THREE.Mesh(geometry, material);
-      cube.position.set(x + i * cubeSize * 1.5, y + j * cubeSize * 1.5, 0);
-      cube.userData.color1 = color1; // Store color1
-      cube.userData.color2 = color2; // Store color2
-      cube.userData.isSelected = false; // Flag to track cube selection
-      cube.userData.onClick = function() {
-        this.userData.isSelected = !this.userData.isSelected; // Toggle the isSelected flag
-        this.material.color.set(this.userData.isSelected ? this.userData.color2 : this.userData.color1); // Toggle between color1 and color2
-      };
-      cube.onClick = cube.userData.onClick;
-      grid.add(cube);
+      for (var i = 0; i <= 1; i++) {
+        for (var j = 0; j <= 1; j++) {
+          var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+          var material = new THREE.MeshPhongMaterial({ color: color });
+          var cube = new THREE.Mesh(geometry, material);
+          cube.position.set(x + i * cubeSize * 1.5, y + j * cubeSize * 1.5, 0);
+          cube.userData.color1 = color1; // Store color1
+          cube.userData.color2 = color2; // Store color2
+          cube.userData.isSelected = false; // Flag to track cube selection
+          cube.userData.onClick = function() {
+            this.userData.isSelected = !this.userData.isSelected; // Toggle the isSelected flag
+            this.material.color.set(this.userData.isSelected ? this.userData.color2 : this.userData.color1); // Toggle between color1 and color2
+          };
+          cube.onClick = cube.userData.onClick;
+          grid.add(cube);
+        }
+      }
+
+      return grid;
     }
-  }
 
-  return grid;
-}
+    // Function to toggle cubes based on a pattern
+    function toggleCubes(grid, pattern) {
+      var cubes = grid.children; // Get cubes from the provided grid
+      for (var i = 0; i < cubes.length; i++) {
+        var cube = cubes[i];
+        var toggleState = pattern[i % pattern.length]; // Get the toggle state based on the pattern
+        cube.material.color.set(toggleState ? cube.userData.color2 : cube.userData.color1); // Toggle between color1 and color2
+      }
+    }
 
     // Render loop
     function animate() {
@@ -99,6 +109,11 @@
         }
       }
     });
+
+    // Example usage: Toggle cubes in gridLeft with a pattern
+    var togglePattern = [1, 0, 1, 0]; // Example pattern (1: toggle cube, 0: leave cube unchanged)
+    toggleCubes(gridLeft, togglePattern);
+    toggleCubes(gridRight, togglePattern);
   </script>
 </body>
 </html>
