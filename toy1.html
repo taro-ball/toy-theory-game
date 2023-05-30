@@ -11,10 +11,15 @@
 <body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
-    // Set up scene, camera, and renderer
+
+    // cube and grid paramers
     var color1 = 0x00ff00;
     var color2 = 0xff0000;
+    var cubeDistance=1.1;
+    rows = 4
+    columns = 4
     
+    // Set up scene, camera, and renderer
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
@@ -47,12 +52,12 @@
       var grid = new THREE.Group();
       var color = color1; // Start with color1
 
-      for (var i = 0; i <= 1; i++) {
-        for (var j = 0; j <= 1; j++) {
+      for (var i = 1; i <= columns; i++) {
+        for (var j = 1; j <= rows; j++) {
           var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize*0.2);
           var material = new THREE.MeshPhongMaterial({ color: color, transparent: true, opacity: 0.7, shininess: 50 });
           var cube = new THREE.Mesh(geometry, material);
-          cube.position.set(x + i * cubeSize * 1.5, y + j * cubeSize * 1.5, 0);
+          cube.position.set(x + j * cubeSize * cubeDistance, y + i * cubeSize * cubeDistance, 0);
           cube.userData.color1 = color1; // Store color1
           cube.userData.color2 = color2; // Store color2
           cube.userData.isSelected = false; // Flag to track cube selection
@@ -72,6 +77,7 @@
     function toggleCubes(grid, pattern) {
       var cubes = grid.children; // Get cubes from the provided grid
       for (var i = 0; i < cubes.length; i++) {
+        console.log(`cubes=${cubes.length} pattern=${pattern.length}`);
         var cube = cubes[i];
         var toggleState = pattern[i % pattern.length]; // Get the toggle state based on the pattern
         cube.material.color.set(toggleState ? cube.userData.color2 : cube.userData.color1); // Toggle between color1 and color2
@@ -111,7 +117,7 @@
     });
 
     // Example usage: Toggle cubes in gridLeft with a pattern
-    var togglePattern = [1, 0, 1, 0]; // Example pattern (1: toggle cube, 0: leave cube unchanged)
+    var togglePattern = [1, 1, 1, 1,0, 0, 1, 0,1, 0, 1, 0,1, 0, 1, 0]; // Example pattern (1: toggle cube, 0: leave cube unchanged)
     toggleCubes(gridLeft, togglePattern);
     toggleCubes(gridRight, togglePattern);
   </script>
