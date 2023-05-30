@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Rotating Cube Grid</title>
   <style>
-    body { margin: 0; }
-    canvas { display: block; }
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      display: block;
+    }
   </style>
 </head>
+
 <body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
@@ -15,10 +22,10 @@
     // cube and grid paramers
     var color1 = 0x00ff00;
     var color2 = 0xff0000;
-    var cubeDistance=1.1;
+    var cubeDistance = 1.1;
     rows = 4
     columns = 4
-    
+
     // Set up scene, camera, and renderer
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -54,14 +61,14 @@
 
       for (var i = 1; i <= columns; i++) {
         for (var j = 1; j <= rows; j++) {
-          var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize*0.2);
+          var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize * 0.2);
           var material = new THREE.MeshPhongMaterial({ color: color, transparent: true, opacity: 0.7, shininess: 50 });
           var cube = new THREE.Mesh(geometry, material);
           cube.position.set(x + j * cubeSize * cubeDistance, y + i * cubeSize * cubeDistance, 0);
           cube.userData.color1 = color1; // Store color1
           cube.userData.color2 = color2; // Store color2
           cube.userData.isSelected = false; // Flag to track cube selection
-          cube.userData.onClick = function() {
+          cube.userData.onClick = function () {
             this.userData.isSelected = !this.userData.isSelected; // Toggle the isSelected flag
             this.material.color.set(this.userData.isSelected ? this.userData.color2 : this.userData.color1); // Toggle between color1 and color2
           };
@@ -99,7 +106,7 @@
     animate();
 
     // Add event listener for mouse click
-    renderer.domElement.addEventListener('click', function(event) {
+    renderer.domElement.addEventListener('click', function (event) {
       var mouse = new THREE.Vector2();
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -117,9 +124,10 @@
     });
 
     // Example usage: Toggle cubes in gridLeft with a pattern
-    var togglePattern = [1, 1, 1, 1,0, 0, 1, 0,1, 0, 1, 0,1, 0, 1, 0]; // Example pattern (1: toggle cube, 0: leave cube unchanged)
+    var togglePattern = [1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]; // Example pattern (1: toggle cube, 0: leave cube unchanged)
     toggleCubes(gridLeft, togglePattern);
     toggleCubes(gridRight, togglePattern);
   </script>
 </body>
+
 </html>
