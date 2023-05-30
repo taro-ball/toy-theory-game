@@ -75,7 +75,10 @@
           cube.onClick = cube.userData.onClick;
           grid.add(cube);
 
-          var labelTexture = createLabelTexture('Label', 32, '#2222ff');
+          var cubeNumber = (i - 1) * rows + j; // Calculate the cube number
+
+          var labelTexture = createLabelTexture(cubeNumber.toString(), 32, '#ffffff');
+
           var labelMaterial = new THREE.MeshBasicMaterial({ map: labelTexture });
           var labelMesh = new THREE.Mesh(geometry, labelMaterial);
           labelMesh.position.copy(cube.position);
