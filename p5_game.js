@@ -9,14 +9,16 @@ class Box {
     }
   
     draw() {
-      fill(this.value === 1 ? 'red' : 'blue');
+      fill(this.value === 1 ? 'FireBrick' : 'ForestGreen');
       rect(this.x, this.y, this.width, this.height);
   
-      // Draw the box index
-      fill(255);
-      textAlign(CENTER, CENTER);
-      textSize(18);
-      text(this.index + 1, this.x + this.width / 2, this.y + this.height / 2);
+      // Draw the box index only if showIndexes is true
+      if (showIndexes) {
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textSize(18);
+        text(this.index + 1, this.x + this.width / 2, this.y + this.height / 2);
+      }
   
       // Add dark frame for selected box
       if (selected !== null && this.index === selected) {
@@ -49,33 +51,40 @@ class Box {
         boxes[b] = temp;
       }
       
+}
+
+let grid = [];
+let selected = null;
+let showIndexes = false;  // Added here
+
+function setup() {
+  createCanvas(250, 260);
+
+  // Initialize the grid with Box objects
+  for (let i = 0; i < 16; i++) {
+    const x = (i % 4) * 60 + 10;
+    const y = Math.floor(i / 4) * 60 + 10;
+    const value = i < 8 ? 0 : 1;
+    grid.push(new Box(x, y, 50, 50, value, i));
   }
-  
-  let grid = [];
-  let selected = null;
-  
-  function setup() {
-    createCanvas(250, 260); // Increase canvas height to accommodate all boxes
-    noLoop();
-  
-    // Initialize the grid with Box objects
-    for (let i = 0; i < 16; i++) {
-      const x = (i % 4) * 60 + 10;
-      const y = Math.floor(i / 4) * 60 + 10;
-      const value = i < 8 ? 0 : 1;
-      grid.push(new Box(x, y, 50, 50, value, i));
-    }
+
+  // Create a button that toggles showIndexes
+  let button = createButton('Toggle Indexes');
+  button.mousePressed(() => {
+    showIndexes = !showIndexes;
+    redraw();
+  });
+}
+
+function draw() {
+  background(220);
+
+  // Draw the grid
+  for (let box of grid) {
+    box.draw();
   }
-  
-  function draw() {
-    background(220);
-  
-    // Draw the grid
-    for (let box of grid) {
-      box.draw();
-    }
-  }
-  
+}
+
   function mousePressed() {
     for (let i = 0; i < grid.length; i++) {
       if (grid[i].contains(mouseX, mouseY)) {
