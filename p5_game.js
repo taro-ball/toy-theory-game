@@ -47,6 +47,7 @@ class Box {
 
     static swapInArray(boxes, a, b) {
         let temp = boxes[a];
+        console.table(Object.entries(temp));
         boxes[a] = boxes[b];
         boxes[b] = temp;
     }
@@ -121,10 +122,14 @@ function mousePressed() {
 }
 
 function checkWin() {
-    for (let i = 0; i < grid.length; i++) {
-      if (grid[i].value !== targetGrid[i].value) {
+
+    let gridValues = grid.map(cell => cell.value);
+    let targetGridValues = targetGrid.map(cell => cell.value);
+
+    //console.log(grid[1].value+"(1):"+gridValues.toString()+"===="+targetGridValues.toString()+new Date())
+      if (targetGridValues.toString() == gridValues.toString()) {
         return false;
       }
-    }
-    return true;
+
+    //return true;
   }
