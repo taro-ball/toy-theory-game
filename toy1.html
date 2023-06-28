@@ -28,7 +28,7 @@
 
     // Set up scene, camera, and renderer
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var camera = new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, 0.2, 1000);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
@@ -50,7 +50,7 @@
     camera.position.z = 5;
 
     // Animation variables
-    var rockingSpeed = 0.02;
+    var rockingSpeed = 0.00;
     var rockingFactor = 0.01;
     var rockingAngle = 0;
 
@@ -75,15 +75,15 @@
           cube.onClick = cube.userData.onClick;
           grid.add(cube);
 
-          var cubeNumber = (i - 1) * rows + j; // Calculate the cube number
+          // var cubeNumber = (i - 1) * rows + j; // Calculate the cube number
 
-          var labelTexture = createLabelTexture(cubeNumber.toString(), 32, '#ffffff');
+          // var labelTexture = createLabelTexture(cubeNumber.toString(), 32, '#ffffff');
 
-          var labelMaterial = new THREE.MeshBasicMaterial({ map: labelTexture });
-          var labelMesh = new THREE.Mesh(geometry, labelMaterial);
-          labelMesh.position.copy(cube.position);
-          labelMesh.position.z += cubeSize * 0.1; // Position the label slightly above the cube
-          grid.add(labelMesh);
+          // var labelMaterial = new THREE.MeshBasicMaterial({ map: labelTexture });
+          // var labelMesh = new THREE.Mesh(geometry, labelMaterial);
+          // labelMesh.position.copy(cube.position);
+          // labelMesh.position.z += cubeSize * 0.1; // Position the label slightly above the cube
+          // grid.add(labelMesh);
         }
       }
 
