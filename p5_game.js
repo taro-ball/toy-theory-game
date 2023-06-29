@@ -110,14 +110,14 @@ function setup() {
     workingGrid = createGrid(50, true, 10, 300, workingPattern);
 
     let toggleButton = createButton('Toggle Indexes');
-    toggleButton.position(200, 80);
+    toggleButton.position(windowWidth / 2 - 150, 80);
     toggleButton.mousePressed(() => {
         showIndexes = !showIndexes;
         redraw();
     });
 
     let resetButton = createButton('Reset Board');
-    resetButton.position(330, 80);
+    resetButton.position(windowWidth / 2 - 10, 80);
     resetButton.mousePressed(() => {
         if (confirm('Are you sure you want to reset the board?')) {
             // Reload the page if the user clicked OK
