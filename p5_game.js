@@ -48,7 +48,7 @@ class Box {
     }
 }
 
-let grid = [];
+let workingGrid = [];
 let targetGrid = [];
 let selected = null;
 let showIndexes = false;
@@ -62,14 +62,14 @@ function setup() {
         const x = (i % 4) * 60 + 10;
         const y = Math.floor(i / 4) * 60 + 10;
         const value = pattern[i]; 
-        targetGrid.push(new Box(x, y, 50, 50, value, i));
+        targetGrid.push(new Box(x, y, 20, 20, value, i));
     }
 
     for (let i = 0; i < 16; i++) {
         const x = (i % 4) * 60 + 10;
-        const y = Math.floor(i / 4) * 60 + 260; // move main grid down
+        const y = Math.floor(i / 4) * 60 + 260; // move main workingGrid down
         const value = i < countOfOnes ? 1 : 0; 
-        grid.push(new Box(x, y, 50, 50, value, i));
+        workingGrid.push(new Box(x, y, 50, 50, value, i));
     }
 
     let button = createButton('Toggle Indexes');
@@ -86,19 +86,19 @@ function draw() {
         box.draw();
     }
 
-    for (let box of grid) {
+    for (let box of workingGrid) {
         box.draw();
     }
 }
 
 function mousePressed() {
-    for (let i = 0; i < grid.length; i++) {
-        if (grid[i].contains(mouseX, mouseY)) {
+    for (let i = 0; i < workingGrid.length; i++) {
+        if (workingGrid[i].contains(mouseX, mouseY)) {
             if (selected !== null) {
-                grid[i].swap(selected);
+                workingGrid[i].swap(selected);
                 selected = null;
             } else {
-                selected = grid[i];
+                selected = workingGrid[i];
             }
             redraw();
 
@@ -111,8 +111,8 @@ function mousePressed() {
 }
 
 function checkWin() {
-    for (let i = 0; i < grid.length; i++) {
-        if (grid[i].value !== targetGrid[grid[i].currIndex].value) {
+    for (let i = 0; i < workingGrid.length; i++) {
+        if (workingGrid[i].value !== targetGrid[workingGrid[i].currIndex].value) {
             return false;
         }
     }
