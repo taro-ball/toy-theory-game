@@ -88,15 +88,14 @@ function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
 function setup() {
     createCanvas(500, 520);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < myPatterns.length; i++) {
+        let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
         let boxSize = 15;
         let positionX = 10 + i * 80;
         let positionY = 10;
-
-        let pattern = Array(BOXES_PER_GRID).fill(0).map((v, index) => (index + i) % 2);
-
         targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
     }
+
 
     let workingPattern = Array(BOXES_PER_GRID).fill(0).map((v, i) => i < 8 ? 1 : 0);
 
