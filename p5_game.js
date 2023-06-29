@@ -24,7 +24,7 @@ class Box {
         textAlign(CENTER, CENTER);
         textSize(this.boxSize / 2)
         noStroke(); // Removes stroke from text
-        text(this.initIndex + 1, this.x + this.boxSize / 2, this.y + this.boxSize / 2);
+        text(this.initIndex, this.x + this.boxSize / 2, this.y + this.boxSize / 2);
     }
 
     drawInteractive() {
@@ -85,6 +85,26 @@ function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     return grid;
 }
 
+function applyMapping(grid, map) {
+    // Ensure map is a permutation of numbers from 0 to 15
+    const mapCheck = [...map].sort((a, b) => a - b);
+    for (let i = 0; i < mapCheck.length; i++) {
+        if (mapCheck[i] !== i) {
+            throw new Error('Invalid mapping');
+        }
+    }
+
+    // Store the original positions
+    let originalPositions = grid.map(box => ({ x: box.x, y: box.y }));
+
+    for (let i = 0; i < BOXES_PER_GRID; i++) {
+        const mappedIndex = map[i];
+        grid[mappedIndex].x = originalPositions[i].x;
+        grid[mappedIndex].y = originalPositions[i].y;
+        grid[mappedIndex].currIndex = i;
+    }
+}
+
 function setup() {
     createCanvas(500, 520);
 
@@ -114,6 +134,17 @@ function setup() {
         if (confirm('Are you sure you want to reset the board?')) {
             window.location.reload();
         }
+    });
+
+    let applyMapButton = createButton('Apply Map');
+    applyMapButton.position(windowWidth / 2 + 130, 80);
+    applyMapButton.mousePressed(() => {
+        //const map = [8,6,3,1,2,5,4,15,0,14,12,13,11,9,7,10];
+        const map = [1,0,2,3,4,5,6,7,8,9,10,11,12,13,15,14];
+        for (let i = 0; i < targetGrids.length; i++) {
+            applyMapping(targetGrids[i], map);
+        }
+        redraw();
     });
 }
 
