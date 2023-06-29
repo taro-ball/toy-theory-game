@@ -15,7 +15,8 @@ class Box {
     drawBox() {
         stroke(this.flash ? 'white' : 'black');
         strokeWeight(this.flash ? 7 : 1);
-        fill(this.value === 1 ? 'FireBrick' : 'ForestGreen');
+        if (!colorWorking) { fill(this.value === 1 ? 'FireBrick' : 'ForestGreen'); }
+        else { fill("gray") }
         rect(this.x, this.y, this.boxSize, this.boxSize);
     }
 
@@ -75,6 +76,7 @@ let targetGrids = [];
 let workingGrid = [];
 let selected = null;
 let showIndexes = false;
+let colorWorking = false;
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
@@ -91,7 +93,7 @@ function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
 
 function getMapFromGrid(grid) {
     let map = new Array(grid.length);
-    for(let i = 0; i < grid.length; i++) {
+    for (let i = 0; i < grid.length; i++) {
         map[grid[i].currIndex] = i;
     }
     return map;
@@ -148,12 +150,10 @@ function setup() {
         }
     });
 
-    //map = [1,0,2,3,4,5,6,7,8,9,10,11,12,13,15,14];
     mapInput = createInput();
     mapInput.attribute('readonly', '');
     mapInput.position(windowWidth / 2 - 150, 105);
     mapInput.size(220, 16)
-    //mapInput.attribute('placeholder', 'Enter map (comma-separated)');
 
 
     let applyMapButton = createButton('Apply Map');
