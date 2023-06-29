@@ -73,6 +73,7 @@ class Box {
 }
 
 let sourceGrids = [];
+let targetGrids = [];
 let workingGrid = [];
 let selected = null;
 let showIndexes = false;
@@ -130,6 +131,14 @@ function setup() {
         sourceGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
     }
 
+    for (let i = 0; i < myPatterns.length; i++) {
+        let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
+        let boxSize = 15;
+        let positionX = 10 + i * 80;
+        let positionY = 80;
+       targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
+    }
+
 
     let workingPattern = Array(BOXES_PER_GRID).fill(0).map((v, i) => i < 8 ? 1 : 0);
 
@@ -181,6 +190,7 @@ function drawGrid(grid) {
 function draw() {
     background(220);
     sourceGrids.forEach(drawGrid);
+    targetGrids.forEach(drawGrid); 
     drawGrid(workingGrid);
 }
 
