@@ -72,7 +72,7 @@ class Box {
     }
 }
 
-let targetGrids = [];
+let sourceGrids = [];
 let workingGrid = [];
 let selected = null;
 let showIndexes = false;
@@ -127,7 +127,7 @@ function setup() {
         let boxSize = 15;
         let positionX = 10 + i * 80;
         let positionY = 10;
-        targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
+        sourceGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
     }
 
 
@@ -160,9 +160,9 @@ function setup() {
     applyMapButton.position(windowWidth / 2 + 90, 105);
     applyMapButton.mousePressed(() => {
         let map = mapInput.value().split(',').map(Number);
-        for (let i = 0; i < targetGrids.length; i++) {
+        for (let i = 0; i < sourceGrids.length; i++) {
             try {
-                applyMapping(targetGrids[i], map);
+                applyMapping(sourceGrids[i], map);
             } catch (error) {
                 alert('Invalid mapping. Please enter a valid map.');
                 return;
@@ -180,7 +180,7 @@ function drawGrid(grid) {
 
 function draw() {
     background(220);
-    targetGrids.forEach(drawGrid);
+    sourceGrids.forEach(drawGrid);
     drawGrid(workingGrid);
 }
 
@@ -205,7 +205,7 @@ function mousePressed() {
 
 function checkWin() {
     for (let i = 0; i < workingGrid.length; i++) {
-        if (workingGrid[i].value !== targetGrids[0][workingGrid[i].currIndex].value) {
+        if (workingGrid[i].value !== sourceGrids[0][workingGrid[i].currIndex].value) {
             return false;
         }
     }
