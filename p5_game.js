@@ -1,39 +1,40 @@
 class Box {
-    constructor(x, y, size, value, index, isInteractive) {
+    constructor(x, y, boxSize, value, index, isInteractive) {
         this.x = x;
         this.y = y;
-        this.size = size;
+        this.boxSize = boxSize;
         this.value = value;
-        this.initIndex = index; 
-        this.currIndex = index; 
+        this.initIndex = index;
+        this.currIndex = index;
         this.isInteractive = isInteractive;
-        this.flash = false; 
+        this.flash = false;
     }
 
     draw() {
-        if (this.flash) { 
+        if (this.flash) {
             stroke('white');
             strokeWeight(7); // Set the stroke weight to 7 for the flash effect
         } else {
-            stroke('black'); 
+            stroke('black');
             strokeWeight(1);
         }
 
         fill(this.value === 1 ? 'FireBrick' : 'ForestGreen');
-        rect(this.x, this.y, this.size, this.size);
-    
+        rect(this.x, this.y, this.boxSize, this.boxSize);
+
         if (showIndexes) {
             fill(255);
             textAlign(CENTER, CENTER);
-            textSize(this.size / 2)
-            text(this.initIndex + 1, this.x + this.size / 2, this.y + this.size / 2);
+            textSize(this.boxSize / 2)
+            noStroke(); // Removes stroke from text
+            text(this.initIndex + 1, this.x + this.boxSize / 2, this.y + this.boxSize / 2);
         }
-    
+
         if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex) {
             noFill();
             stroke('Chartreuse');
-            strokeWeight(5); 
-            rect(this.x, this.y, this.size, this.size);
+            strokeWeight(5);
+            rect(this.x, this.y, this.boxSize, this.boxSize);
             noStroke();
         }
     }
@@ -64,7 +65,7 @@ class Box {
     }
 
     contains(mouseX, mouseY) {
-        return (mouseX > this.x && mouseX < this.x + this.size && mouseY > this.y && mouseY < this.y + this.size);
+        return (mouseX > this.x && mouseX < this.x + this.boxSize && mouseY > this.y && mouseY < this.y + this.boxSize);
     }
 
 
@@ -93,14 +94,14 @@ function setup() {
     createCanvas(500, 520);
 
     for (let i = 0; i < 5; i++) {
-        let size = 15;
+        let boxSize = 15;
         let positionX = 10 + i * 80;
         let positionY = 10; // Change Y position for each grid to stack vertically
 
         // Generate pattern based on some rule
         let pattern = Array(16).fill(0).map((v, index) => (index + i) % 2);
 
-        targetGrids.push(createGrid(size, false, positionX, positionY, pattern));
+        targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
     }
 
     //let countOfOnes = Array(16).fill(0).reduce((count, value) => count + value, 0);
@@ -108,12 +109,22 @@ function setup() {
 
     workingGrid = createGrid(50, true, 10, 300, workingPattern);
 
-    let button = createButton('Toggle Indexes');
-    button.position(200, 80); 
-    button.mousePressed(() => {
+    let toggleButton = createButton('Toggle Indexes');
+    toggleButton.position(200, 80);
+    toggleButton.mousePressed(() => {
         showIndexes = !showIndexes;
         redraw();
     });
+
+    let resetButton = createButton('Reset Board');
+    resetButton.position(330, 80);
+    resetButton.mousePressed(() => {
+        if (confirm('Are you sure you want to reset the board?')) {
+            // Reload the page if the user clicked OK
+            window.location.reload();
+        }
+    });
+
 }
 
 
