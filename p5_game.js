@@ -10,25 +10,26 @@ class Box {
     }
 
     draw() {
+        strokeWeight(1); // Set normal stroke weight for boxes
+        stroke('black'); // Reset the stroke before each box is drawn
         fill(this.value === 1 ? 'FireBrick' : 'ForestGreen');
         rect(this.x, this.y, this.size, this.size);
-
+    
         if (showIndexes) {
             fill(255);
             textAlign(CENTER, CENTER);
             textSize(18);
             text(this.initIndex + 1, this.x + this.size / 2, this.y + this.size / 2);
         }
-
+    
         if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex) {
             noFill();
-            stroke('black');
-            strokeWeight(3);
+            stroke('blue');  // change the stroke color for the selection
+            strokeWeight(5); // set thicker stroke weight for selection
             rect(this.x, this.y, this.size, this.size);
             noStroke();
         }
     }
-
     contains(mouseX, mouseY) {
         return (mouseX > this.x && mouseX < this.x + this.size && mouseY > this.y && mouseY < this.y + this.size);
     }
