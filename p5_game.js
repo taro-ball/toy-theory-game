@@ -12,14 +12,14 @@ class Box {
     draw() {
         fill(this.value === 1 ? 'FireBrick' : 'ForestGreen');
         rect(this.x, this.y, this.size, this.size);
-    
+
         if (showIndexes) {
             fill(255);
             textAlign(CENTER, CENTER);
             textSize(18);
             text(this.initIndex + 1, this.x + this.size / 2, this.y + this.size / 2);
         }
-    
+
         if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex) {
             noFill();
             stroke('black');
@@ -28,11 +28,11 @@ class Box {
             noStroke();
         }
     }
-    
+
     contains(mouseX, mouseY) {
         return (mouseX > this.x && mouseX < this.x + this.size && mouseY > this.y && mouseY < this.y + this.size);
     }
-    
+
     swap(other) {
         const tempIndex = this.currIndex;
         const tempX = this.x;
@@ -48,6 +48,7 @@ class Box {
     }
 }
 
+let targetGrids = [];
 let workingGrid = [];
 let targetGrid = [];
 let selected = null;
@@ -59,7 +60,7 @@ function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     for (let i = 0; i < 16; i++) {
         const x = topLeftX + (i % 4) * boxSize;
         const y = topLeftY + Math.floor(i / 4) * boxSize;
-        const value = pattern[i]; 
+        const value = pattern[i];
         grid.push(new Box(x, y, boxSize, value, i, isInteractive));
     }
 
@@ -67,14 +68,23 @@ function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
 }
 
 function setup() {
-    createCanvas(250, 520);
-    let pattern = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1];
-    let countOfOnes = pattern.reduce((count, value) => count + value, 0);
+    createCanvas(500, 520);
 
-    targetGrid = createGrid(20, false, 10, 10, pattern);
+    for (let i = 0; i < 5; i++) {
+        let size = 15;
+        let positionX = 10 + i * 80;
+        let positionY = 10; // Change Y position for each grid to stack vertically
 
-    let workingPattern = Array(16).fill(0).map((v, i) => i < countOfOnes ? 1 : 0);
-    workingGrid = createGrid(50, true, 10, 260, workingPattern);
+        // Generate pattern based on some rule
+        let pattern = Array(16).fill(0).map((v, index) => (index + i) % 2);
+
+        targetGrids.push(createGrid(size, false, positionX, positionY, pattern));
+    }
+
+    //let countOfOnes = Array(16).fill(0).reduce((count, value) => count + value, 0);
+    let workingPattern = Array(16).fill(0).map((v, i) => i < 8 ? 1 : 0);
+
+    workingGrid = createGrid(50, true, 10, 300, workingPattern);
 
     let button = createButton('Toggle Indexes');
     button.mousePressed(() => {
@@ -84,17 +94,21 @@ function setup() {
 }
 
 
+
 function draw() {
     background(220);
 
-    for (let box of targetGrid) {
-        box.draw();
+    for (let targetGrid of targetGrids) {
+        for (let box of targetGrid) {
+            box.draw();
+        }
     }
 
     for (let box of workingGrid) {
         box.draw();
     }
 }
+
 
 function mousePressed() {
     for (let i = 0; i < workingGrid.length; i++) {
@@ -118,7 +132,7 @@ function mousePressed() {
 
 function checkWin() {
     for (let i = 0; i < workingGrid.length; i++) {
-        if (workingGrid[i].value !== targetGrid[workingGrid[i].currIndex].value) {
+        if (workingGrid[i].value !== targetGrids[0][workingGrid[i].currIndex].value) {
             return false;
         }
     }
