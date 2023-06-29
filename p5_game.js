@@ -4,35 +4,35 @@ class Box {
         this.y = y;
         this.size = size;
         this.value = value;
-        this.initIndex = index;
-        this.currIndex = index;
+        this.initIndex = index; 
+        this.currIndex = index; 
         this.isInteractive = isInteractive;
-        this.flash = false; // add a new property to control the flash effect
+        this.flash = false; 
     }
 
     draw() {
-        strokeWeight(1);
-
-        if (this.flash) { // if flash is true, set stroke to red
+        if (this.flash) { 
             stroke('white');
+            strokeWeight(7); // Set the stroke weight to 7 for the flash effect
         } else {
-            stroke('black');
+            stroke('black'); 
+            strokeWeight(1);
         }
 
         fill(this.value === 1 ? 'FireBrick' : 'ForestGreen');
         rect(this.x, this.y, this.size, this.size);
-
+    
         if (showIndexes) {
             fill(255);
             textAlign(CENTER, CENTER);
             textSize(18);
             text(this.initIndex + 1, this.x + this.size / 2, this.y + this.size / 2);
         }
-
+    
         if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex) {
             noFill();
             stroke('Chartreuse');
-            strokeWeight(5);
+            strokeWeight(5); 
             rect(this.x, this.y, this.size, this.size);
             noStroke();
         }
@@ -60,7 +60,7 @@ class Box {
             this.flash = false;
             other.flash = false;
             redraw(); // force p5.js to redraw the sketch
-        }, 200); // set the duration of the flash effect
+        }, 100); // set the duration of the flash effect
     }
 
     contains(mouseX, mouseY) {
