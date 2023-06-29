@@ -58,6 +58,10 @@ class Box {
         setTimeout(() => {
             this.flash = false;
             other.flash = false;
+
+            let map = getMapFromGrid(workingGrid);
+            mapInput.value(map.join(','));
+
             redraw();
         }, 100);
     }
@@ -83,6 +87,14 @@ function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     }
 
     return grid;
+}
+
+function getMapFromGrid(grid) {
+    let map = new Array(grid.length);
+    for(let i = 0; i < grid.length; i++) {
+        map[grid[i].currIndex] = i;
+    }
+    return map;
 }
 
 function applyMapping(grid, map) {
@@ -136,13 +148,25 @@ function setup() {
         }
     });
 
+    //map = [1,0,2,3,4,5,6,7,8,9,10,11,12,13,15,14];
+    mapInput = createInput();
+    mapInput.attribute('readonly', '');
+    mapInput.position(windowWidth / 2 - 150, 105);
+    mapInput.size(220, 16)
+    //mapInput.attribute('placeholder', 'Enter map (comma-separated)');
+
+
     let applyMapButton = createButton('Apply Map');
-    applyMapButton.position(windowWidth / 2 + 130, 80);
+    applyMapButton.position(windowWidth / 2 + 90, 105);
     applyMapButton.mousePressed(() => {
-        //const map = [8,6,3,1,2,5,4,15,0,14,12,13,11,9,7,10];
-        const map = [1,0,2,3,4,5,6,7,8,9,10,11,12,13,15,14];
+        let map = mapInput.value().split(',').map(Number);
         for (let i = 0; i < targetGrids.length; i++) {
-            applyMapping(targetGrids[i], map);
+            try {
+                applyMapping(targetGrids[i], map);
+            } catch (error) {
+                alert('Invalid mapping. Please enter a valid map.');
+                return;
+            }
         }
         redraw();
     });
