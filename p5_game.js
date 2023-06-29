@@ -1,5 +1,5 @@
 class Box {
-    constructor(x, y, width, height, value, index) {
+    constructor(x, y, width, height, value, index, isInteractive) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -7,7 +7,9 @@ class Box {
         this.value = value;
         this.initIndex = index; // initial index, never changes
         this.currIndex = index; // current index, changes when boxes are swapped
+        this.isInteractive = isInteractive;
     }
+
 
     draw() {
         fill(this.value === 1 ? 'FireBrick' : 'ForestGreen');
@@ -20,13 +22,14 @@ class Box {
             text(this.initIndex + 1, this.x + this.width / 2, this.y + this.height / 2);
         }
 
-        if (selected !== null && this.initIndex === selected.initIndex) {
+        if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex) {
             noFill();
             stroke('black');
             strokeWeight(3);
             rect(this.x, this.y, this.width, this.height);
             noStroke();
         }
+
     }
 
     contains(mouseX, mouseY) {
@@ -61,16 +64,17 @@ function setup() {
     for (let i = 0; i < 16; i++) {
         const x = (i % 4) * 60 + 10;
         const y = Math.floor(i / 4) * 60 + 10;
-        const value = pattern[i]; 
-        targetGrid.push(new Box(x, y, 20, 20, value, i));
+        const value = pattern[i];
+        targetGrid.push(new Box(x, y, 20, 20, value, i, false));
     }
 
     for (let i = 0; i < 16; i++) {
         const x = (i % 4) * 60 + 10;
         const y = Math.floor(i / 4) * 60 + 260; // move main workingGrid down
-        const value = i < countOfOnes ? 1 : 0; 
-        workingGrid.push(new Box(x, y, 50, 50, value, i));
+        const value = i < countOfOnes ? 1 : 0;
+        workingGrid.push(new Box(x, y, 50, 50, value, i, true));
     }
+
 
     let button = createButton('Toggle Indexes');
     button.mousePressed(() => {
@@ -93,7 +97,7 @@ function draw() {
 
 function mousePressed() {
     for (let i = 0; i < workingGrid.length; i++) {
-        if (workingGrid[i].contains(mouseX, mouseY)) {
+        if (workingGrid[i].contains(mouseX, mouseY) && workingGrid[i].isInteractive) {
             if (selected !== null) {
                 workingGrid[i].swap(selected);
                 selected = null;
@@ -109,6 +113,7 @@ function mousePressed() {
         }
     }
 }
+
 
 function checkWin() {
     for (let i = 0; i < workingGrid.length; i++) {
