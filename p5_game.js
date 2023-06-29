@@ -25,7 +25,7 @@ class Box {
         if (showIndexes) {
             fill(255);
             textAlign(CENTER, CENTER);
-            textSize(18);
+            textSize(this.size / 2)
             text(this.initIndex + 1, this.x + this.size / 2, this.y + this.size / 2);
         }
     
@@ -109,6 +109,7 @@ function setup() {
     workingGrid = createGrid(50, true, 10, 300, workingPattern);
 
     let button = createButton('Toggle Indexes');
+    button.position(200, 80); 
     button.mousePressed(() => {
         showIndexes = !showIndexes;
         redraw();
