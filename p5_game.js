@@ -4,34 +4,38 @@ class Box {
         this.y = y;
         this.size = size;
         this.value = value;
-        this.initIndex = index; // initial index, never changes
-        this.currIndex = index; // current index, changes when boxes are swapped
+        this.initIndex = index;
+        this.currIndex = index;
         this.isInteractive = isInteractive;
+        this.flash = false; // add a new property to control the flash effect
     }
 
     draw() {
-        strokeWeight(1); // Set normal stroke weight for boxes
-        stroke('black'); // Reset the stroke before each box is drawn
+        strokeWeight(1);
+
+        if (this.flash) { // if flash is true, set stroke to red
+            stroke('white');
+        } else {
+            stroke('black');
+        }
+
         fill(this.value === 1 ? 'FireBrick' : 'ForestGreen');
         rect(this.x, this.y, this.size, this.size);
-    
+
         if (showIndexes) {
             fill(255);
             textAlign(CENTER, CENTER);
             textSize(18);
             text(this.initIndex + 1, this.x + this.size / 2, this.y + this.size / 2);
         }
-    
+
         if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex) {
             noFill();
-            stroke('blue');  // change the stroke color for the selection
-            strokeWeight(5); // set thicker stroke weight for selection
+            stroke('Chartreuse');
+            strokeWeight(5);
             rect(this.x, this.y, this.size, this.size);
             noStroke();
         }
-    }
-    contains(mouseX, mouseY) {
-        return (mouseX > this.x && mouseX < this.x + this.size && mouseY > this.y && mouseY < this.y + this.size);
     }
 
     swap(other) {
@@ -46,7 +50,24 @@ class Box {
         other.currIndex = tempIndex;
         other.x = tempX;
         other.y = tempY;
+
+        // Update the flash property to true when boxes are swapped
+        this.flash = true;
+        other.flash = true;
+
+        // After a brief period, set the flash property back to false
+        setTimeout(() => {
+            this.flash = false;
+            other.flash = false;
+            redraw(); // force p5.js to redraw the sketch
+        }, 200); // set the duration of the flash effect
     }
+
+    contains(mouseX, mouseY) {
+        return (mouseX > this.x && mouseX < this.x + this.size && mouseY > this.y && mouseY < this.y + this.size);
+    }
+
+
 }
 
 let targetGrids = [];
