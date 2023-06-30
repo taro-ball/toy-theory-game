@@ -196,23 +196,26 @@ function draw() {
 }
 
 function interact() {
-    for (let i = 0; i < workingGrid.length; i++) {
-        if (workingGrid[i].contains(mouseX, mouseY) && workingGrid[i].isInteractive) {
-            if (selected !== null) {
-                workingGrid[i].swap(selected);
-                selected = null;
-            } else {
-                selected = workingGrid[i];
-            }
-            redraw();
+    if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+        for (let i = 0; i < workingGrid.length; i++) {
+            if (workingGrid[i].contains(mouseX, mouseY) && workingGrid[i].isInteractive) {
+                if (selected !== null) {
+                    workingGrid[i].swap(selected);
+                    selected = null;
+                } else {
+                    selected = workingGrid[i];
+                }
+                redraw();
 
-            if (checkWin()) {
-                alert('You have won!');
+                if (checkWin()) {
+                    alert('You have won!');
+                }
+                break;
             }
-            break;
         }
     }
 }
+
 
 function mousePressed() {
     interact();
