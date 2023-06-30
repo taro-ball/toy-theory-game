@@ -121,6 +121,7 @@ function applyMapping(grid, map) {
 }
 
 function setup() {
+    frameRate(5)
     createCanvas(500, 520);
 
     for (let i = 0; i < myPatterns.length; i++) {
@@ -194,7 +195,7 @@ function draw() {
     drawGrid(workingGrid);
 }
 
-function mousePressed() {
+function interact() {
     for (let i = 0; i < workingGrid.length; i++) {
         if (workingGrid[i].contains(mouseX, mouseY) && workingGrid[i].isInteractive) {
             if (selected !== null) {
@@ -212,6 +213,17 @@ function mousePressed() {
         }
     }
 }
+
+function mousePressed() {
+    interact();
+}
+
+function touchStarted() {
+    interact();
+    return false; // Prevent default behavior
+}
+
+
 
 function checkWin() {
     for (let i = 0; i < workingGrid.length; i++) {
