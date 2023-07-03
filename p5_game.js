@@ -15,7 +15,7 @@ class Box {
     drawBox() {
         stroke(this.flash ? 'white' : 'black');
         strokeWeight(this.flash ? 7 : 1);
-        if (!colorWorking) { fill(this.value === 1 ? 'FireBrick' : 'DarkBlue'); }
+        if (!colorWorking) { fill(this.value === 1 ? 'Teal' : 'DarkBlue'); }
         else { fill("gray") }
         rect(this.x, this.y, this.boxSize, this.boxSize);
     }
@@ -78,6 +78,8 @@ let workingGrid = [];
 let selected = null;
 let showIndexes = false;
 let colorWorking = false;
+let riddleIndex=1
+let myPatterns=riddles[riddleIndex].boardPatterns
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
