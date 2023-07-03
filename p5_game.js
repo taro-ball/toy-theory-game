@@ -78,8 +78,9 @@ let workingGrid = [];
 let selected = null;
 let showIndexes = false;
 let colorWorking = false;
-let riddleIndex=1
-let myPatterns=riddles[riddleIndex].boardPatterns
+let riddleIndex = 0
+let myPatterns = riddles[riddleIndex].boardPatterns
+let currentTargetMap = riddles[riddleIndex].targetMap
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
@@ -123,7 +124,7 @@ function applyMapping(grid, map) {
 }
 
 function setup() {
-    frameRate(5)
+    frameRate(5);
     createCanvas(500, 520);
 
     for (let i = 0; i < myPatterns.length; i++) {
@@ -139,7 +140,16 @@ function setup() {
         let boxSize = 15;
         let positionX = 10 + i * 80;
         let positionY = 80;
-       targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
+        targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
+    }
+
+    for (let i = 0; i < targetGrids.length; i++) {
+        try {
+            applyMapping(targetGrids[i], currentTargetMap);
+        } catch (error) {
+            alert('Invalid mapping. Please enter a valid map.');
+            return;
+        }
     }
 
 
@@ -193,7 +203,7 @@ function drawGrid(grid) {
 function draw() {
     background(220);
     sourceGrids.forEach(drawGrid);
-    targetGrids.forEach(drawGrid); 
+    targetGrids.forEach(drawGrid);
     drawGrid(workingGrid);
 }
 
@@ -228,13 +238,17 @@ function touchStarted() {
     return false; // Prevent default behavior
 }
 
-
-
 function checkWin() {
-    for (let i = 0; i < workingGrid.length; i++) {
-        if (workingGrid[i].value !== sourceGrids[0][workingGrid[i].currIndex].value) {
+    let workingGridMap = workingGrid.map(grid => grid.currIndex);  // creates an array of workingGrid values
+    console.log('workingGridValues: ', workingGridMap);
+    console.log('currentTargetMap: ', currentTargetMap);
+    for (let i = 0; i < workingGridMap.length; i++) {
+        if (workingGridMap[i] !== currentTargetMap[i]) {
+
             return false;
         }
     }
+
     return true;
 }
+
