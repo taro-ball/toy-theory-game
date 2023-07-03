@@ -153,9 +153,9 @@ function setup() {
     }
 
 
-    let workingPattern = Array(BOXES_PER_GRID).fill(0).map((v, i) => i < 8 ? 1 : 0);
+    //let workingPattern = Array(BOXES_PER_GRID).fill(0).map((v, i) => i < 8 ? 1 : 0);
 
-    workingGrid = createGrid(50, true, 10, 300, workingPattern);
+    workingGrid = createGrid(50, true, 10, 300, myPatterns[0]);
 
     let toggleButton = createButton('Toggle Indexes');
     toggleButton.position(windowWidth / 2 - 150, 80);
@@ -180,6 +180,10 @@ function setup() {
 
     let applyMapButton = createButton('Apply Map');
     applyMapButton.position(windowWidth / 2 + 90, 105);
+    applyMapButton.mouseReleased(() => {
+        //todo: resetGrid();
+        redraw();
+    });
     applyMapButton.mousePressed(() => {
         let map = mapInput.value().split(',').map(Number);
         for (let i = 0; i < sourceGrids.length; i++) {
@@ -192,6 +196,8 @@ function setup() {
         }
         redraw();
     });
+
+
 }
 
 function drawGrid(grid) {
@@ -239,7 +245,7 @@ function touchStarted() {
 }
 
 function checkWin() {
-    let workingGridMap = workingGrid.map(grid => grid.currIndex);  // creates an array of workingGrid values
+    let workingGridMap = workingGrid.map(grid => grid.currIndex);
     console.log('workingGridValues: ', workingGridMap);
     console.log('currentTargetMap: ', currentTargetMap);
     for (let i = 0; i < workingGridMap.length; i++) {
