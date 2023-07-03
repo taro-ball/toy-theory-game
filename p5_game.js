@@ -15,7 +15,7 @@ class Box {
     drawBox() {
         stroke(this.flash ? 'white' : 'black');
         strokeWeight(this.flash ? 7 : 1);
-        if (!colorWorking) { fill(this.value === 1 ? 'FireBrick' : 'ForestGreen'); }
+        if (!colorWorking) { fill(this.value === 1 ? 'FireBrick' : 'DarkBlue'); }
         else { fill("gray") }
         rect(this.x, this.y, this.boxSize, this.boxSize);
     }
