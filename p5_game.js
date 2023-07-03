@@ -72,15 +72,50 @@ class Box {
     }
 }
 
-let sourceGrids = [];
-let targetGrids = [];
-let workingGrid = [];
-let selected = null;
+function redrawSketch() {
+    riddleIndex = parseInt(riddleSelect.value());
+    myPatterns = riddles[riddleIndex].boardPatterns;
+    currentTargetMap = riddles[riddleIndex].targetMap;
+
+    sourceGrids = [];
+    targetGrids = [];
+    workingGrid = [];
+    selected = null;
+
+    for (let i = 0; i < myPatterns.length; i++) {
+        let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
+        let boxSize = 15;
+        let positionX = 10 + i * 80;
+        let positionY = 10;
+        sourceGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
+    }
+
+    for (let i = 0; i < myPatterns.length; i++) {
+        let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
+        let boxSize = 15;
+        let positionX = 10 + i * 80;
+        let positionY = 80;
+        targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
+    }
+
+    for (let i = 0; i < targetGrids.length; i++) {
+        try {
+            applyMapping(targetGrids[i], currentTargetMap);
+        } catch (error) {
+            alert('Invalid mapping. Please enter a valid map.');
+            return;
+        }
+    }
+
+    workingGrid = createGrid(50, true, 10, 300, myPatterns[0]);
+
+    redraw();
+}
+
+let riddleSelect;
+
 let showIndexes = false;
 let colorWorking = false;
-let riddleIndex = 0
-let myPatterns = riddles[riddleIndex].boardPatterns
-let currentTargetMap = riddles[riddleIndex].targetMap
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
@@ -127,35 +162,6 @@ function setup() {
     frameRate(5);
     createCanvas(500, 520);
 
-    for (let i = 0; i < myPatterns.length; i++) {
-        let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
-        let boxSize = 15;
-        let positionX = 10 + i * 80;
-        let positionY = 10;
-        sourceGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
-    }
-
-    for (let i = 0; i < myPatterns.length; i++) {
-        let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
-        let boxSize = 15;
-        let positionX = 10 + i * 80;
-        let positionY = 80;
-        targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
-    }
-
-    for (let i = 0; i < targetGrids.length; i++) {
-        try {
-            applyMapping(targetGrids[i], currentTargetMap);
-        } catch (error) {
-            alert('Invalid mapping. Please enter a valid map.');
-            return;
-        }
-    }
-
-
-    //let workingPattern = Array(BOXES_PER_GRID).fill(0).map((v, i) => i < 8 ? 1 : 0);
-
-    workingGrid = createGrid(50, true, 10, 300, myPatterns[0]);
 
     let toggleButton = createButton('Toggle Indexes');
     toggleButton.position(windowWidth / 2 - 150, 80);
@@ -197,7 +203,15 @@ function setup() {
         redraw();
     });
 
+    riddleSelect = createSelect();
+    riddleSelect.position(windowWidth / 2 + 90, 130);
+    for (let i = 0; i < riddles.length; i++) {
+        riddleSelect.option('Riddle ' + (i + 1), i);
+    }
+    riddleSelect.changed(redrawSketch);
 
+    // Draw initial board
+    redrawSketch();
 }
 
 function drawGrid(grid) {
