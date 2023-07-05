@@ -56,12 +56,12 @@ class Box {
         this.flash = true;
         other.flash = true;
 
+
+        mapInput.value(getMapFromGrid(workingGrid).join(','));
+
         setTimeout(() => {
             this.flash = false;
             other.flash = false;
-
-            let map = getMapFromGrid(workingGrid);
-            mapInput.value(map.join(','));
 
             redraw();
         }, 100);
@@ -70,6 +70,14 @@ class Box {
     contains(mouseX, mouseY) {
         return (mouseX > this.x && mouseX < this.x + this.boxSize && mouseY > this.y && mouseY < this.y + this.boxSize);
     }
+}
+
+function inverseMapping(map) {
+    let inverse = new Array(map.length);
+    for (let i = 0; i < map.length; i++) {
+        inverse[map[i]] = i;
+    }
+    return inverse;
 }
 
 function drawArrow(x, y, size) {
@@ -114,7 +122,7 @@ function redrawSketch() {
     }
 
     workingGrid = createGrid(50, true, 10, 300, myPatterns[0]);
-
+    mapInput.value(getMapFromGrid(workingGrid).join(','));
     redraw();
 }
 
@@ -192,6 +200,7 @@ function setup() {
     mapInput.size(220, 16)
 
 
+    let isMapApplied = false;
     let applyMapButton = createButton('Apply Map');
     applyMapButton.position(windowWidth / 2 + 90, 105);
     applyMapButton.mouseReleased(() => {
@@ -199,18 +208,20 @@ function setup() {
         redraw();
     });
     applyMapButton.mousePressed(() => {
-            let map = mapInput.value().split(',').map(Number);
-            for (let i = 0; i < sourceGrids.length; i++) {
-                try {
-                    applyMapping(sourceGrids[i], map);
-                } catch (error) {
-                    alert('Invalid mapping. Please enter a valid map.');
-                    return;
-                }
+        let map = mapInput.value().split(',').map(Number);
+        if (isMapApplied) { map = inverseMapping(map) }
+        for (let i = 0; i < sourceGrids.length; i++) {
+            try {
+                applyMapping(sourceGrids[i], map);
+            } catch (error) {
+                alert('Invalid mapping. Please enter a valid map.');
+                return;
             }
+        }
+        isMapApplied = !isMapApplied;
         redraw();
     });
-    
+
     riddleSelect = createSelect();
     riddleSelect.position(windowWidth / 2 + 90, 130);
     for (let i = 0; i < riddles.length; i++) {
