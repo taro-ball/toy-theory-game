@@ -72,6 +72,12 @@ class Box {
     }
 }
 
+function drawArrow(x, y, size) {
+    //line(x, y, x, y + size);  // Vertical line
+    line(x - size / 2, y + size / 2, x, y + size);  // Diagonal line left
+    line(x + size / 2, y + size / 2, x, y + size);  // Diagonal line right
+}
+
 function redrawSketch() {
     riddleIndex = parseInt(riddleSelect.value());
     myPatterns = riddles[riddleIndex].boardPatterns;
@@ -84,17 +90,17 @@ function redrawSketch() {
 
     for (let i = 0; i < myPatterns.length; i++) {
         let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
-        let boxSize = 15;
-        let positionX = 10 + i * 80;
-        let positionY = 10;
+        let boxSize = miniBoxSize;
+        let positionX = positionXoffset + i * miniBoxSize * 5;
+        let positionY = positionYoffset;
         sourceGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
     }
 
     for (let i = 0; i < myPatterns.length; i++) {
         let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
-        let boxSize = 15;
-        let positionX = 10 + i * 80;
-        let positionY = 80;
+        let boxSize = miniBoxSize;
+        let positionX = positionXoffset + i * miniBoxSize * 5;
+        let positionY = positionYoffset + miniBoxSize * 5.5;
         targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
     }
 
@@ -113,9 +119,11 @@ function redrawSketch() {
 }
 
 let riddleSelect;
-
 let showIndexes = false;
 let colorWorking = false;
+let miniBoxSize = 15;
+let positionXoffset = 10;
+let positionYoffset = 10;
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
@@ -187,7 +195,7 @@ function setup() {
     let applyMapButton = createButton('Apply Map');
     applyMapButton.position(windowWidth / 2 + 90, 105);
     applyMapButton.mouseReleased(() => {
-        //todo: resetGrid();
+        //todo: proper reset resetGrid();
         redraw();
     });
     applyMapButton.mousePressed(() => {
@@ -225,6 +233,16 @@ function draw() {
     sourceGrids.forEach(drawGrid);
     targetGrids.forEach(drawGrid);
     drawGrid(workingGrid);
+
+    // Drawing arrows
+    strokeWeight(2);
+    for (let i = 0; i < myPatterns.length; i++) {
+
+        drawArrow(40 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4, 16);
+        drawArrow(40 + i * miniBoxSize * 5, positionYoffset - 5 + miniBoxSize * 4, 16);
+
+    }
+    noStroke();
 }
 
 function interact() {
