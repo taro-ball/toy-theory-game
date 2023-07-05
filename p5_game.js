@@ -122,8 +122,8 @@ let riddleSelect;
 let showIndexes = false;
 let colorWorking = false;
 let miniBoxSize = 15;
-let positionXoffset = 10;
-let positionYoffset = 10;
+let positionXoffset = miniBoxSize;
+let positionYoffset = miniBoxSize;
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
@@ -168,7 +168,7 @@ function applyMapping(grid, map) {
 
 function setup() {
     frameRate(5);
-    createCanvas(500, 520);
+    createCanvas(miniBoxSize * 46, miniBoxSize * 40);
 
 
     let toggleButton = createButton('Toggle Indexes');
@@ -199,18 +199,18 @@ function setup() {
         redraw();
     });
     applyMapButton.mousePressed(() => {
-        let map = mapInput.value().split(',').map(Number);
-        for (let i = 0; i < sourceGrids.length; i++) {
-            try {
-                applyMapping(sourceGrids[i], map);
-            } catch (error) {
-                alert('Invalid mapping. Please enter a valid map.');
-                return;
+            let map = mapInput.value().split(',').map(Number);
+            for (let i = 0; i < sourceGrids.length; i++) {
+                try {
+                    applyMapping(sourceGrids[i], map);
+                } catch (error) {
+                    alert('Invalid mapping. Please enter a valid map.');
+                    return;
+                }
             }
-        }
         redraw();
     });
-
+    
     riddleSelect = createSelect();
     riddleSelect.position(windowWidth / 2 + 90, 130);
     for (let i = 0; i < riddles.length; i++) {
@@ -237,10 +237,8 @@ function draw() {
     // Drawing arrows
     strokeWeight(2);
     for (let i = 0; i < myPatterns.length; i++) {
-
-        drawArrow(40 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4, 16);
-        drawArrow(40 + i * miniBoxSize * 5, positionYoffset - 5 + miniBoxSize * 4, 16);
-
+        drawArrow(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4, 16);
+        drawArrow(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset - 5 + miniBoxSize * 4, 16);
     }
     noStroke();
 }
