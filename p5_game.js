@@ -38,7 +38,7 @@ class Box {
 
     draw() {
         this.drawBox();
-        if (showIndexes) this.drawIndex();
+        if (showIndexes && this.isInteractive) this.drawIndex();
         if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex) this.drawInteractive();
     }
 
@@ -178,16 +178,43 @@ function setup() {
     frameRate(5);
     createCanvas(miniBoxSize * 46, miniBoxSize * 40);
 
+    let container = createDiv('');
+    container.id('myContainer');
+    container.style('display', 'flex');
+    container.style('flex-direction', 'column');
+    container.style('align-items', 'center');
+    container.style('margin-bottom', '20px');
+    //container.position(windowWidth / 2, 120);
 
-    let toggleButton = createButton('Toggle Indexes');
-    toggleButton.position(windowWidth / 2 - 150, 80);
-    toggleButton.mousePressed(() => {
+    let row1 = createDiv('');
+    row1.style('display', 'flex');
+    row1.style('justify-content', 'center');
+    row1.parent(container);
+
+    let row2 = createDiv('');
+    row2.style('display', 'flex');
+    row2.style('justify-content', 'center');
+    row2.parent(container);
+
+    riddleSelect = createSelect();
+    riddleSelect.parent(row1);
+    //riddleSelect.position(windowWidth / 2 + 90, 130);
+    for (let i = 0; i < riddles.length; i++) {
+        riddleSelect.option('Riddle ' + (i + 1), i);
+    }
+    riddleSelect.changed(redrawSketch);
+
+    let indexButton = createButton('Toggle Indexes');
+    indexButton.parent(row1);
+    //indexButton.position(windowWidth / 2 - 150, 80);
+    indexButton.mousePressed(() => {
         showIndexes = !showIndexes;
         redraw();
     });
 
     let resetButton = createButton('Reset Board');
-    resetButton.position(windowWidth / 2 - 10, 80);
+    resetButton.parent(row1);
+    //resetButton.position(windowWidth / 2 - 10, 80);
     resetButton.mousePressed(() => {
         if (confirm('Are you sure you want to reset the board?')) {
             window.location.reload();
@@ -195,18 +222,15 @@ function setup() {
     });
 
     mapInput = createInput();
+    mapInput.parent(row2);
     mapInput.attribute('readonly', '');
-    mapInput.position(windowWidth / 2 - 150, 105);
+    //mapInput.position(windowWidth / 2 - 150, 105);
     mapInput.size(220, 16)
-
 
     let isMapApplied = false;
     let applyMapButton = createButton('Apply Map');
-    applyMapButton.position(windowWidth / 2 + 90, 105);
-    applyMapButton.mouseReleased(() => {
-        //todo: proper reset resetGrid();
-        redraw();
-    });
+    applyMapButton.parent(row2);
+    //applyMapButton.position(windowWidth / 2 + 90, 105);
     applyMapButton.mousePressed(() => {
         let map = mapInput.value().split(',').map(Number);
         if (isMapApplied) { map = inverseMapping(map) }
@@ -221,13 +245,6 @@ function setup() {
         isMapApplied = !isMapApplied;
         redraw();
     });
-
-    riddleSelect = createSelect();
-    riddleSelect.position(windowWidth / 2 + 90, 130);
-    for (let i = 0; i < riddles.length; i++) {
-        riddleSelect.option('Riddle ' + (i + 1), i);
-    }
-    riddleSelect.changed(redrawSketch);
 
     // Draw initial board
     redrawSketch();
