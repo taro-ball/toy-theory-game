@@ -57,7 +57,7 @@ class Box {
         other.flash = true;
 
 
-        mapInput.value(getMapFromGrid(workingGrid).join(','));
+        //mapInput.value(getMapFromGrid(workingGrid).join(','));
 
         setTimeout(() => {
             this.flash = false;
@@ -128,7 +128,7 @@ function redrawSketch() {
     }
 
     workingGrid = createGrid(miniBoxSize * 3, true, positionXoffset, positionYoffset + miniBoxSize * 20, myPatterns[0]);
-    mapInput.value(getMapFromGrid(workingGrid).join(','));
+    //mapInput.value(getMapFromGrid(workingGrid).join(','));
     redraw();
 }
 
@@ -198,28 +198,18 @@ function setup() {
     }
     riddleSelect.changed(redrawSketch);
 
-    let indexButton = createButton('Toggle Indexes');
-    indexButton.parent(row1);
-    //indexButton.position(windowWidth / 2 - 150, 80);
-    indexButton.mousePressed(() => {
-        showIndexes = !showIndexes;
-        redraw();
-    });
-
-
-    mapInput = createInput();
-    mapInput.parent(row2);
-    mapInput.attribute('readonly', '');
-    //mapInput.position(windowWidth / 2 - 150, 105);
-    mapInput.size(220, 16)
-
     let isMapApplied = false;
     let applyMapButton = createButton('Apply Map');
     applyMapButton.parent(row2);
     //applyMapButton.position(windowWidth / 2 + 90, 105);
     applyMapButton.mousePressed(() => {
-        let map = mapInput.value().split(',').map(Number);
-        if (isMapApplied) { map = inverseMapping(map) }
+        let map = getMapFromGrid(workingGrid);
+        if (isMapApplied) {
+            map = inverseMapping(map);
+            applyMapButton.html('Apply Map'); // Change button text back to 'Apply Map'
+        } else {
+            applyMapButton.html('Undo Map'); // Change button text to 'Undo Map'
+        }
         for (let i = 0; i < sourceGrids.length; i++) {
             try {
                 applyMapping(sourceGrids[i], map);
