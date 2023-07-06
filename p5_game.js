@@ -127,7 +127,7 @@ function redrawSketch() {
         }
     }
 
-    workingGrid = createGrid(miniBoxSize*3, true, positionXoffset, positionYoffset + miniBoxSize * 20, myPatterns[0]);
+    workingGrid = createGrid(miniBoxSize * 3, true, positionXoffset, positionYoffset + miniBoxSize * 20, myPatterns[0]);
     mapInput.value(getMapFromGrid(workingGrid).join(','));
     redraw();
 }
@@ -270,7 +270,7 @@ function interact() {
                 redraw();
 
                 if (checkWin()) {
-                    alert('You have won!');
+                    gameLog(winMessages[Math.floor(Math.random() * winMessages.length)]);
                 }
                 break;
             }
@@ -290,11 +290,10 @@ function touchStarted() {
 
 function checkWin() {
     let workingGridMap = workingGrid.map(grid => grid.currIndex);
-    gameLog('Current mapping: ' + workingGridMap.toString());
+    //gameLog('Current mapping: ' + workingGridMap.toString());
     //gameLog('currentTargetMap: ', currentTargetMap);
     for (let i = 0; i < workingGridMap.length; i++) {
         if (workingGridMap[i] !== currentTargetMap[i]) {
-
             return false;
         }
     }
