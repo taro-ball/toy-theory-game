@@ -183,7 +183,7 @@ function applyMapping(grid, map) {
 
 function setup() {
     frameRate(5);
-    logDiv = select('#log');
+    logDiv = select('#ttLog');
     let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
     myCanvas.parent('canvasContainer');
 

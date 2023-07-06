@@ -9,15 +9,24 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      height: 100vh;
       background-color: #555555;
       padding: 0;
       margin: 0;
     }
 
-    #myContainer {
+    #gameContainer {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    #inputContainer {
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 3px;
       margin: 15px;
     }
 
@@ -29,32 +38,34 @@
     }
 
     #canvasContainer {
+      display: flex;
       justify-content: center;
     }
 
-    #log {
+    #ttLog {
       height: 400px;
-      /* adjust as needed */
       width: 210px;
-      /* adjust as needed */
-      border: 1px solid black;
+      border: 3px solid rgb(55, 55, 55);
+      background-color: #c8ff94;
       overflow-y: scroll;
       font-family: monospace;
       white-space: pre-wrap;
       word-wrap: break-word;
-      left: 0;
+      overflow-wrap: break-word;
     }
   </style>
 </head>
 
 <body>
-  
-  <div id="myContainer">
+  <div id="inputContainer">
     <div id="row1"></div>
     <div id="row2"></div>
   </div>
-  <div id="canvasContainer"></div>
-  <div id="log"></div>
+  <div id="gameContainer">
+    <div id="canvasContainer"></div>
+    <div id="ttLog">Check info on our <a href="https://github.com/taro-ball/toy-theory-game">github.com</a> 🤣💕🙌<br><br></div>
+  </div>
+
   <script src="p5_patterns.js"></script>
   <br><!--to make sure patterns load first-->
   <script src="p5_game.js"></script>
