@@ -24,8 +24,9 @@ class Box {
         fill(255);
         textAlign(CENTER, CENTER);
         textSize(this.boxSize / 2)
-        //noStroke(); // Removes stroke from text
+        noStroke(); // Removes stroke from text
         text(this.initIndex, this.x + this.boxSize / 2, this.y + this.boxSize / 2);
+        stroke('black');
     }
 
     drawInteractive() {
@@ -226,6 +227,10 @@ function setup() {
         redraw();
     });
 
+    let helpButton = createButton('Help');
+    helpButton.parent(row1);
+    helpButton.mousePressed(() => { gameLog(helpMessage[0]) });
+
     // Draw initial board
     redrawSketch();
 }
@@ -264,7 +269,7 @@ function interact() {
                 redraw();
 
                 if (checkWin()) {
-                    gameLog("<H1>WIN!!!</H1><H3>"+winMessages[Math.floor(Math.random() * winMessages.length)]+"</H3>");
+                    gameLog("<H1>WIN!!!</H1><H3>" + winMessages[Math.floor(Math.random() * winMessages.length)] + "</H3>");
                 }
                 break;
             }
