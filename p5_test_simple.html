@@ -12,19 +12,26 @@
         margin: 0;
       }
       #myContainer {
-        margin-bottom: 20px;
-      }
-      #canvasContainer {
-        border: 1px solid;
-        margin: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 20px;
+      }
+      #row1, #row2 {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+      #canvasContainer {
+        border: 1px solid;
       }
     </style>
   </head>
   <body>
-    <div id="myContainer"></div>
+    <div id="myContainer">
+      <div id="row1"></div>
+      <div id="row2"></div>
+    </div>
     <div id="canvasContainer"></div>
     <script src="p5_patterns.js"></script>
     <br><!--to make sure patterns load first-->

@@ -179,24 +179,9 @@ function setup() {
 
     let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 40);
     myCanvas.parent('canvasContainer');
-    
-    let container = select('#myContainer');
-    //container.id('myContainer');
-    // container.style('display', 'flex');
-    // container.style('flex-direction', 'column');
-    // container.style('align-items', 'center');
-    //container.style('margin-bottom', '20px');
-    //container.position(windowWidth / 2, 120);
 
-    let row1 = createDiv('');
-    row1.style('display', 'flex');
-    row1.style('justify-content', 'center');
-    row1.parent(container);
-
-    let row2 = createDiv('');
-    row2.style('display', 'flex');
-    row2.style('justify-content', 'center');
-    row2.parent(container);
+    let row1 = select('#row1');
+    let row2 = select('#row2');
 
     riddleSelect = createSelect();
     riddleSelect.parent(row1);
@@ -214,14 +199,6 @@ function setup() {
         redraw();
     });
 
-    let resetButton = createButton('Reset Board');
-    resetButton.parent(row1);
-    //resetButton.position(windowWidth / 2 - 10, 80);
-    resetButton.mousePressed(() => {
-        if (confirm('Are you sure you want to reset the board?')) {
-            window.location.reload();
-        }
-    });
 
     mapInput = createInput();
     mapInput.parent(row2);
