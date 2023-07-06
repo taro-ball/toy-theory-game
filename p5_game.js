@@ -198,9 +198,13 @@ function setup() {
     }
     riddleSelect.changed(redrawSketch);
 
+    let resetButton = createButton('Reset');
+    resetButton.parent(row1);
+    resetButton.mousePressed(redrawSketch);
+
     let isMapApplied = false;
     let applyMapButton = createButton('Apply Map');
-    applyMapButton.parent(row2);
+    applyMapButton.parent(row1);
     //applyMapButton.position(windowWidth / 2 + 90, 105);
     applyMapButton.mousePressed(() => {
         let map = getMapFromGrid(workingGrid);
