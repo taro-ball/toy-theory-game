@@ -176,14 +176,16 @@ function applyMapping(grid, map) {
 
 function setup() {
     frameRate(5);
-    createCanvas(miniBoxSize * 46, miniBoxSize * 40);
 
-    let container = createDiv('');
-    container.id('myContainer');
-    container.style('display', 'flex');
-    container.style('flex-direction', 'column');
-    container.style('align-items', 'center');
-    container.style('margin-bottom', '20px');
+    let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 40);
+    myCanvas.parent('canvasContainer');
+    
+    let container = select('#myContainer');
+    //container.id('myContainer');
+    // container.style('display', 'flex');
+    // container.style('flex-direction', 'column');
+    // container.style('align-items', 'center');
+    //container.style('margin-bottom', '20px');
     //container.position(windowWidth / 2, 120);
 
     let row1 = createDiv('');
