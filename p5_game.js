@@ -260,7 +260,7 @@ function interact() {
                 redraw();
 
                 if (checkWin()) {
-                    gameLog(winMessages[Math.floor(Math.random() * winMessages.length)]);
+                    gameLog("<H1>WIN!!!</H1><H3>"+winMessages[Math.floor(Math.random() * winMessages.length)]+"</H3>");
                 }
                 break;
             }
