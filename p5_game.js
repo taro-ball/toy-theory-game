@@ -272,11 +272,11 @@ function interact() {
 function mousePressed() {
     interact();
 }
-
-function touchStarted() {
-    interact();
-    return false; // Prevent default behavior
-}
+// keep it commented until figure out touch controls
+// function touchStarted() {
+//     interact();
+//     return false; // Prevent default behavior
+// }
 
 function checkWin() {
     let workingGridMap = workingGrid.map(grid => grid.currIndex);
