@@ -2,7 +2,7 @@ riddles = [
     {
         "targetMap": [0, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 15],
         "boardPatterns": [
-            [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
             [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
             [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
             [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
@@ -39,13 +39,9 @@ riddles = [
 
 ]
 winMessages = ["Congratulations, you've unlocked the puzzle achievement! 🎉✨ Now bask in the glory of victory! 🏆",
-    "Well done, puzzle maestro! 🌟🧠 Your victory calls for a virtual dance party! 💃🕺",
-    "You've cracked the code and emerged victorious! 💪💥 Enjoy a well-deserved victory parade! 🎉🎊",
-    "You've outsmarted the puzzle and emerged triumphant! 🧠💪 Celebrate with a victory dance! 💃🎉",
     "Whoa, Sherlock! You've cracked the case and left the puzzle in tears! 👏😎 Prepare for a well-deserved standing ovation and a virtual trophy emoji parade! 🏅🎉",
     "You're a mastermind, a puzzle-solving wizard! 🔮🧩 Take a bow as the crowd goes wild and unicorns rain from the virtual sky! 🦄🌈",
     "Well, look at you, Mr./Ms. Smarty Pants! 👓🧠 You've outsmarted the puzzle like a boss! Now it's time to do a victory dance on a pixelated disco floor! 💃🕺✨",
-    "Congratulations, Captain Logic! 🚀🌌 You've successfully landed on Planet Victory! Celebrate with an intergalactic party filled with alien emojis and moonwalking astronauts! 🎉👽🚀",
     "Hot potato, you're on fire! 🔥🥔 You've roasted that puzzle like a champ! Celebrate with a potato-themed emoji feast and a sizzling victory dance! 🥔💃",
     "You've outwitted the puzzle like a mischievous fox! 🦊🧩 Now it's party time with emoji foxes doing the electric slide and a pixelated piñata filled with victory emojis! 🦊💃🎉",
     "Congratulations! You've unscrambled this puzzle faster than light! 🌟 But remember, according to Einstein, time is relative! 🕓⚛️",

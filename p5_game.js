@@ -24,7 +24,7 @@ class Box {
         fill(255);
         textAlign(CENTER, CENTER);
         textSize(this.boxSize / 2)
-        noStroke(); // Removes stroke from text
+        //noStroke(); // Removes stroke from text
         text(this.initIndex, this.x + this.boxSize / 2, this.y + this.boxSize / 2);
     }
 
@@ -133,7 +133,7 @@ function redrawSketch() {
 }
 
 let riddleSelect;
-let showIndexes = false;
+let showIndexes = true;
 let colorWorking = false;
 let miniBoxSize = 15;
 let positionXoffset = miniBoxSize;
