@@ -72,6 +72,12 @@ class Box {
     }
 }
 
+function gameLog(message) {
+    let previousHtml = logDiv.html(); // get the current log
+    logDiv.html(previousHtml + message + '\n'); // append the new message and a newline
+    logDiv.elt.scrollTop = logDiv.elt.scrollHeight; // scroll to the bottom
+}
+
 function inverseMapping(map) {
     let inverse = new Array(map.length);
     for (let i = 0; i < map.length; i++) {
@@ -121,7 +127,7 @@ function redrawSketch() {
         }
     }
 
-    workingGrid = createGrid(50, true, 10, 300, myPatterns[0]);
+    workingGrid = createGrid(miniBoxSize*3, true, positionXoffset, positionYoffset + miniBoxSize * 20, myPatterns[0]);
     mapInput.value(getMapFromGrid(workingGrid).join(','));
     redraw();
 }
@@ -132,6 +138,7 @@ let colorWorking = false;
 let miniBoxSize = 15;
 let positionXoffset = miniBoxSize;
 let positionYoffset = miniBoxSize;
+let logDiv;
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
@@ -176,8 +183,8 @@ function applyMapping(grid, map) {
 
 function setup() {
     frameRate(5);
-
-    let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 40);
+    logDiv = select('#log');
+    let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
     myCanvas.parent('canvasContainer');
 
     let row1 = select('#row1');
@@ -283,8 +290,8 @@ function touchStarted() {
 
 function checkWin() {
     let workingGridMap = workingGrid.map(grid => grid.currIndex);
-    console.log('workingGridValues: ', workingGridMap);
-    console.log('currentTargetMap: ', currentTargetMap);
+    gameLog('Current mapping: ' + workingGridMap.toString());
+    //gameLog('currentTargetMap: ', currentTargetMap);
     for (let i = 0; i < workingGridMap.length; i++) {
         if (workingGridMap[i] !== currentTargetMap[i]) {
 

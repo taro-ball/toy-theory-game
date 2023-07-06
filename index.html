@@ -1,40 +1,63 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #555555;
-        padding: 0;
-        margin: 0;
-      }
-      #myContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 15px;
-      }
-      #row1, #row2 {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-      }
-      #canvasContainer {
-        justify-content: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="myContainer">
-      <div id="row1"></div>
-      <div id="row2"></div>
-    </div>
-    <div id="canvasContainer"></div>
-    <script src="p5_patterns.js"></script>
-    <br><!--to make sure patterns load first-->
-    <script src="p5_game.js"></script>
-  </body>
+
+<head>
+  <title>Toy Theory Game</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #555555;
+      padding: 0;
+      margin: 0;
+    }
+
+    #myContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 15px;
+    }
+
+    #row1,
+    #row2 {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    #canvasContainer {
+      justify-content: center;
+    }
+
+    #log {
+      height: 400px;
+      /* adjust as needed */
+      width: 210px;
+      /* adjust as needed */
+      border: 1px solid black;
+      overflow-y: scroll;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      left: 0;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div id="myContainer">
+    <div id="row1"></div>
+    <div id="row2"></div>
+  </div>
+  <div id="canvasContainer"></div>
+  <div id="log"></div>
+  <script src="p5_patterns.js"></script>
+  <br><!--to make sure patterns load first-->
+  <script src="p5_game.js"></script>
+</body>
+
 </html>
