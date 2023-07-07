@@ -73,26 +73,6 @@ class Box {
     }
 }
 
-function gameLog(message) {
-    let previousHtml = logDiv.html(); // get the current log
-    logDiv.html(previousHtml + message + '<br><br>'); // append the new message and a newline
-    logDiv.elt.scrollTop = logDiv.elt.scrollHeight; // scroll to the bottom
-}
-
-function inverseMapping(map) {
-    let inverse = new Array(map.length);
-    for (let i = 0; i < map.length; i++) {
-        inverse[map[i]] = i;
-    }
-    return inverse;
-}
-
-function drawArrow(x, y, size) {
-    //line(x, y, x, y + size);  // Vertical line
-    line(x - size / 2, y + size / 2, x, y + size);  // Diagonal line left
-    line(x + size / 2, y + size / 2, x, y + size);  // Diagonal line right
-}
-
 function redrawSketch() {
     riddleIndex = parseInt(riddleSelect.value());
     myPatterns = riddles[riddleIndex].boardPatterns;
