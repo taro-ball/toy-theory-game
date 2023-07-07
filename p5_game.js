@@ -270,7 +270,8 @@ function interact() {
                 redraw();
 
                 if (checkWin()) {
-                    gameLog("<H1>WIN!!!</H1><H3>" + winMessages[Math.floor(Math.random() * winMessages.length)] + "</H3>");
+                    winMsg = riddles[riddleIndex].winMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
+                    gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
                 }
                 break;
             }
