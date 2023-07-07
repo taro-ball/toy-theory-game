@@ -107,18 +107,7 @@ riddles = [{
     "name": "Awesomeness of geometry📐",
     "author": "Robot🤖",
     "winMessage": "I am robot, you can not win me! Beep-beep-bup!",
-}, {
-    "targetMap": [0, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 15],
-    "boardPatterns": [
-        [0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0],
-        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-        [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
-        [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-    ],
-    "name": "The easy one 😊",
-    "author": "Human🙆"
-},
+}, 
 {
     "targetMap": [15, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 0],
     "boardPatterns": [

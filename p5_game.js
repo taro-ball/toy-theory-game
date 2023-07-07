@@ -212,7 +212,7 @@ function setup() {
 
     let hintButton = createButton('Hint');
     hintButton.parent(row1);
-    hintButton.mousePressed(() => { gameLog(riddleHint()) });
+    hintButton.mousePressed(() => { gameLog(`<b>Hint:</b> ${riddleHint()}`) });
 
     let helpButton = createButton('Help');
     helpButton.parent(row1);
