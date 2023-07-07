@@ -130,7 +130,7 @@ function redrawSketch() {
 
     workingGrid = createGrid(miniBoxSize * 3, true, positionXoffset, positionYoffset + miniBoxSize * 20, myPatterns[0]);
     //mapInput.value(getMapFromGrid(workingGrid).join(','));
-    gameLog(`Riddle "${riddles[riddleIndex].name}" by ${riddles[riddleIndex].author} loaded!<br>`)
+    gameLog(`<b>Riddle</b> "${riddles[riddleIndex].name}" by ${riddles[riddleIndex].author} <b>loaded!</b><br>`)
     redraw();
 }
 
