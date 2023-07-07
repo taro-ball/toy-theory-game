@@ -1,6 +1,12 @@
 function riddleHint() {
     let hints = riddles[riddleIndex].hints;
-    let hint = hints && hints.length > 0 ? hints[0] : "Sorry, you are on your own!";
+    if (!hints || hints.length === 0) {
+        return "Sorry, <b>no hints</b> here. You are on your own!";
+    }
+
+    let hint = hints[hintNo];
+    hintNo = (hintNo + 1) % hints.length; // Increment hint index and reset to 0 after reaching the last hint
+    
     return hint;
 }
 

@@ -102,6 +102,7 @@ function redrawSketch() {
     targetGrids = [];
     workingGrid = [];
     selected = null;
+    hintNo = 0;
 
     for (let i = 0; i < myPatterns.length; i++) {
         let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
@@ -141,6 +142,7 @@ let miniBoxSize = 15;
 let positionXoffset = miniBoxSize;
 let positionYoffset = miniBoxSize;
 let logDiv;
+let hintNo = 0;
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
