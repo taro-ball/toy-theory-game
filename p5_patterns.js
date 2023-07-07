@@ -1,5 +1,10 @@
 
-helpMessage = ["<b>How to play:</b><br>#️⃣ Use the grid at the bottom to present your answer.<br>🕹️ Select a tile by clicking on it, then choose another tile to swap with. Repeat until you have arranged the tiles to match your guess. If you are correct, you will receive a win message. If not, you can reset the arrangement and try again. To view the result of your guess, click 'Apply Map' Clicking 'Apply Map' again will reveal the original question.<br>"]
+helpMessage = [`<b>How to play:</b>
+
+#️⃣ Use the grid at the bottom to present your answer.<br>
+🕹️ Select a tile by clicking on it, then choose another tile to swap with. Repeat until you have arranged the tiles to match your guess.\
+If you are correct, you will receive a win message. If not, you can reset the arrangement and try again. \
+To view the result of your guess, click "Apply Map" Clicking 'Apply Map' again will reveal the original question.<br>`]
 
 winMessages = [
     "You're a mastermind, a puzzle-solving wizard! 🔮🧩 Take a bow as the crowd goes wild and unicorns rain from the virtual sky! 🦄🌈",
@@ -25,43 +30,54 @@ winMessages = [
     "Puzzle: Solved! You've zeroed in on the solution as precisely as an atom's half-life in a radioactive sample! ☢️➡️⏳",
     "Stupendous! You've observed the puzzle solution, just like Bohr's model observing the quantum leaps of an electron! 🎊⚡️"
 ]
-riddles = [
-    {
-        "targetMap": [0, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 15],
-        "boardPatterns": [
-            [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
-            [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
-            [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
-            [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1]
-        ],
-        "name": "Awesomeness of geometry📐",
-        "author": "Robot🤖"
-    }, {
-        "targetMap": [0, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 15],
-        "boardPatterns": [
-            [0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0],
-            [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
-            [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-        ],
-        "name": "The easy one 😊",
-        "author": "Human🙆"
-    },
-    {
-        "targetMap": [15, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 0],
-        "boardPatterns": [
-            [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
-            [0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1],
-            [0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-        ],
-        "name": "Greener pastures 🌾🌾🌾",
-        "author": "Bor🔰"
-    }
+riddles = [{
+    "targetMap": [0, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 15],
+    "boardPatterns": [
+        [0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0],
+        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+        [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
+        [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    "name": "The easy one 😊",
+    "author": "Human🙆"
+},
+{
+    "targetMap": [0, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 15],
+    "boardPatterns": [
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+        [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
+        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+        [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
+        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+        [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
+        [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1]
+    ],
+    "name": "Awesomeness of geometry📐",
+    "author": "Robot🤖"
+}, {
+    "targetMap": [0, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 15],
+    "boardPatterns": [
+        [0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0],
+        [1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
+        [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
+        [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    "name": "The easy one 😊",
+    "author": "Human🙆"
+},
+{
+    "targetMap": [15, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 0],
+    "boardPatterns": [
+        [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
+        [0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1],
+        [0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    "name": "Greener pastures 🌾🌾🌾",
+    "author": "Bor🔰"
+}
 
 ]
