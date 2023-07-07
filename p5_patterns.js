@@ -1,10 +1,16 @@
+function riddleHint() {
+    let hints = riddles[riddleIndex].hints;
+    let hint = hints && hints.length > 0 ? hints[0] : "Sorry, you are on your own!";
+    return hint;
+}
 
 helpMessage = [`<b>How to play:</b>
 
-#️⃣ Use the grid at the bottom to present your answer.<br>
+#️⃣ Use the grid at the bottom to present your answer.
+
 🕹️ Select a tile by clicking on it, then choose another tile to swap with. Repeat until you have arranged the tiles to match your guess.\
 If you are correct, you will receive a win message. If not, you can reset the arrangement and try again. \
-To view the result of your guess, click "Apply Map" Clicking 'Apply Map' again will reveal the original question.<br>`]
+To view the result of your guess, click "Apply Map" Clicking 'Apply Map' again will reveal the original question.`]
 
 winMessages = [
     "You're a mastermind, a puzzle-solving wizard! 🔮🧩 Take a bow as the crowd goes wild and unicorns rain from the virtual sky! 🦄🌈",
@@ -47,7 +53,7 @@ riddles = [{
     "author": "Rob🧑‍🏫",
     "winMessage": "Impressive! You cracked it! 🥳🍾 (but Nitica was the first 😏🥇)",
 }, {
-    "targetMap": [0, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 15],
+    "targetMap": [0, 1, 2, 11, 4, 5, 6, 15, 8, 9, 10, 3, 12, 13, 14, 7],
     "boardPatterns": [
         [1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1],
@@ -56,7 +62,8 @@ riddles = [{
         [1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1]
     ],
     "name": "The sweet one 🍭",
-    "author": "Baker🧑‍🍳"
+    "author": "Baker🧑‍🍳",
+    "hints": ["Only involves tiles in the last column, but which ones?😏", "Ok, the top one is 11🦄.", "Still did not guess? Second from the top - 15🙄"]
 },
 {
     "targetMap": [0, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 15],

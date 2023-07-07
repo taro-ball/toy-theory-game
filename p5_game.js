@@ -15,7 +15,7 @@ class Box {
     drawBox() {
         stroke(this.flash ? 'white' : 'black');
         strokeWeight(this.flash ? 7 : 1);
-        if (!colorWorking) { fill(this.value === 1 ? 'Teal' : 'DarkBlue'); }
+        if (!colorWorking) { fill(this.value === 1 ? 'Purple' : 'DarkTurquoise'); }
         else { fill("gray") }
         rect(this.x, this.y, this.boxSize, this.boxSize);
     }
@@ -75,7 +75,7 @@ class Box {
 
 function gameLog(message) {
     let previousHtml = logDiv.html(); // get the current log
-    logDiv.html(previousHtml + message + '\n'); // append the new message and a newline
+    logDiv.html(previousHtml + message + '<br><br>'); // append the new message and a newline
     logDiv.elt.scrollTop = logDiv.elt.scrollHeight; // scroll to the bottom
 }
 
@@ -130,7 +130,7 @@ function redrawSketch() {
 
     workingGrid = createGrid(miniBoxSize * 3, true, positionXoffset, positionYoffset + miniBoxSize * 20, myPatterns[0]);
     //mapInput.value(getMapFromGrid(workingGrid).join(','));
-    gameLog(`<b>Riddle</b> "${riddles[riddleIndex].name}" by ${riddles[riddleIndex].author} <b>loaded!</b><br>`)
+    gameLog(`<b>Riddle</b> "${riddles[riddleIndex].name}" by ${riddles[riddleIndex].author} <b>loaded!</b>`)
     redraw();
 }
 
@@ -227,6 +227,10 @@ function setup() {
         isMapApplied = !isMapApplied;
         redraw();
     });
+
+    let hintButton = createButton('Hint');
+    hintButton.parent(row1);
+    hintButton.mousePressed(() => { gameLog(riddleHint()) });
 
     let helpButton = createButton('Help');
     helpButton.parent(row1);
