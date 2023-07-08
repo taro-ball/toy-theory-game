@@ -10,11 +10,12 @@ class Box {
         this.currIndex = index;
         this.isInteractive = isInteractive;
         this.flash = false;
+        this.isLocked = false;
     }
 
     drawBox() {
-        stroke(this.flash ? 'white' : 'black');
-        strokeWeight(this.flash ? 7 : 1);
+        stroke(this.flash ? 'white' : this.isLocked ? 'red' : 'black');
+        strokeWeight(this.flash ? 7 : this.isLocked ? 3 : 1);
         if (!colorWorking) { fill(this.value === 1 ? 'Purple' : 'DarkTurquoise'); }
         else { fill("gray") }
         rect(this.x, this.y, this.boxSize, this.boxSize);
@@ -30,17 +31,21 @@ class Box {
     }
 
     drawInteractive() {
-        noFill();
-        stroke('Chartreuse');
-        strokeWeight(5);
-        rect(this.x, this.y, this.boxSize, this.boxSize);
-        noStroke();
+        if (!this.isLocked) {
+            noFill();
+            stroke('Chartreuse');
+            strokeWeight(5);
+            rect(this.x, this.y, this.boxSize, this.boxSize);
+            noStroke();
+        }
     }
 
     draw() {
         this.drawBox();
         if (showIndexes && this.isInteractive) this.drawIndex();
-        if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex) this.drawInteractive();
+        if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex && !this.isLocked) { // Check for locked status here
+            this.drawInteractive();
+        }
     }
 
     setPosition(x, y, index) {
@@ -50,6 +55,10 @@ class Box {
     }
 
     swap(other) {
+        if (this.isLocked || other.isLocked) { // If either box is locked, prevent swap
+            return;
+        }
+
         [this.x, other.x] = [other.x, this.x];
         [this.y, other.y] = [other.y, this.y];
         [this.currIndex, other.currIndex] = [other.currIndex, this.currIndex];
@@ -70,6 +79,10 @@ class Box {
 
     contains(mouseX, mouseY) {
         return (mouseX > this.x && mouseX < this.x + this.boxSize && mouseY > this.y && mouseY < this.y + this.boxSize);
+    }
+
+    toggleLock() {
+        this.isLocked = !this.isLocked; // Toggle the lock status
     }
 }
 
@@ -166,6 +179,7 @@ function applyMapping(grid, map) {
 }
 
 function setup() {
+    document.addEventListener('contextmenu', event => event.preventDefault());
     frameRate(5);
     logDiv = select('#ttLog');
     let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
@@ -247,23 +261,30 @@ function interact() {
     if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
         for (let i = 0; i < workingGrid.length; i++) {
             if (workingGrid[i].contains(mouseX, mouseY) && workingGrid[i].isInteractive) {
-                if (selected !== null) {
-                    workingGrid[i].swap(selected);
-                    selected = null;
-                } else {
-                    selected = workingGrid[i];
-                }
-                redraw();
+                if (mouseButton === LEFT) {
+                    if (selected !== null) {
+                        workingGrid[i].swap(selected);
+                        selected = null;
+                    } else {
+                        selected = workingGrid[i];
+                    }
+                    redraw();
 
-                if (checkWin()) {
-                    winMsg = riddles[riddleIndex].winMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
-                    gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
+                    if (checkWin()) {
+                        winMsg = riddles[riddleIndex].winMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
+                        gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
+                    }
+                    break;
+                } else if (mouseButton === RIGHT) {
+                    workingGrid[i].toggleLock();
+                    redraw();
+                    break;
                 }
-                break;
             }
         }
     }
 }
+
 
 
 function mousePressed() {
