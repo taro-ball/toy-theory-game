@@ -14,8 +14,8 @@ class Box {
     }
 
     drawBox() {
-        stroke(this.flash ? 'white' : this.isLocked ? 'red' : 'black');
-        strokeWeight(this.flash ? 7 : this.isLocked ? 3 : 1);
+        stroke(this.flash ? 'white' : this.isLocked ? 'DarkSlateGrey' : 'black');
+        strokeWeight(this.flash ? 7 : this.isLocked ? 6 : 1);
         if (!colorWorking) { fill(this.value === 1 ? 'Purple' : 'DarkTurquoise'); }
         else { fill("gray") }
         rect(this.x, this.y, this.boxSize, this.boxSize);
