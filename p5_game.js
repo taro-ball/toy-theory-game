@@ -14,7 +14,7 @@ class Box {
     }
 
     drawBox() {
-        stroke(this.flash ? 'white' : this.isLocked ? 'DarkSlateGrey' : 'black');
+        stroke(this.flash ? 'white' : this.isLocked ? 'DarkGrey' : 'black');
         strokeWeight(this.flash ? 7 : this.isLocked ? lockedStrokeW : 1);
         if (!colorWorking) { fill(this.value === 1 ? 'Purple' : 'DarkTurquoise'); }
         else { fill("gray") }
@@ -33,21 +33,18 @@ class Box {
 
     drawSelected() {
         if (!this.isLocked) {
-            noFill();
-            stroke('Chartreuse');
-            strokeWeight(7);
-            rect(this.x, this.y, this.boxSize, this.boxSize);
-            strokeWeight(lockedStrokeW)
+            fill('MediumOrchid');
             noStroke();
+            rect(this.x, this.y, this.boxSize, this.boxSize);
         }
     }
 
     draw() {
         this.drawBox();
-        if (showIndexes && this.isInteractive) this.drawIndex();
         if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex && !this.isLocked) { // Check for locked status here
             this.drawSelected();
         }
+        if (showIndexes && this.isInteractive) this.drawIndex();
     }
 
     setPosition(x, y, index) {
@@ -98,7 +95,7 @@ function redrawSketch() {
     workingGrid = [];
     selected = null;
     hintNo = 0;
-    lockedStrokeW=6;
+    lockedStrokeW = 6;
 
     for (let i = 0; i < myPatterns.length; i++) {
         let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
@@ -125,7 +122,7 @@ function redrawSketch() {
         }
     }
 
-    workingGrid = createGrid(miniBoxSize * 3, true, positionXoffset, positionYoffset + miniBoxSize * 20, myPatterns[0]);
+    workingGrid = createGrid(miniBoxSize * 4, true, positionXoffset, positionYoffset + miniBoxSize * 16, myPatterns[0]);
     //mapInput.value(getMapFromGrid(workingGrid).join(','));
     gameLog(`<hr><b>Riddle</b> "${riddles[riddleIndex].name}" by ${riddles[riddleIndex].author} <b>loaded!</b>`)
     redraw();
