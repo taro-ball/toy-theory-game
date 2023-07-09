@@ -15,7 +15,7 @@ class Box {
 
     drawBox() {
         stroke(this.flash ? 'white' : this.isLocked ? 'DarkSlateGrey' : 'black');
-        strokeWeight(this.flash ? 7 : this.isLocked ? 6 : 1);
+        strokeWeight(this.flash ? 7 : this.isLocked ? lockedStrokeW : 1);
         if (!colorWorking) { fill(this.value === 1 ? 'Purple' : 'DarkTurquoise'); }
         else { fill("gray") }
         rect(this.x, this.y, this.boxSize, this.boxSize);
@@ -26,16 +26,18 @@ class Box {
         textAlign(CENTER, CENTER);
         textSize(this.boxSize / 2)
         noStroke(); // Removes stroke from text
-        text(this.initIndex, this.x + this.boxSize / 2, this.y + this.boxSize / 2);
+        let indexTxt = this.isLocked ? '[' + this.initIndex + ']' : this.initIndex;
+        text(indexTxt, this.x + this.boxSize / 2, this.y + this.boxSize / 2);
         stroke('black');
     }
 
-    drawInteractive() {
+    drawSelected() {
         if (!this.isLocked) {
             noFill();
             stroke('Chartreuse');
-            strokeWeight(5);
+            strokeWeight(7);
             rect(this.x, this.y, this.boxSize, this.boxSize);
+            strokeWeight(lockedStrokeW)
             noStroke();
         }
     }
@@ -44,7 +46,7 @@ class Box {
         this.drawBox();
         if (showIndexes && this.isInteractive) this.drawIndex();
         if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex && !this.isLocked) { // Check for locked status here
-            this.drawInteractive();
+            this.drawSelected();
         }
     }
 
@@ -96,6 +98,7 @@ function redrawSketch() {
     workingGrid = [];
     selected = null;
     hintNo = 0;
+    lockedStrokeW=6;
 
     for (let i = 0; i < myPatterns.length; i++) {
         let pattern = myPatterns[i].map(num => num); // Copy each pattern into a separate array
