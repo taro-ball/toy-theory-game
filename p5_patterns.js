@@ -77,7 +77,7 @@ gamePalette = [{
     "name": "Original",
     "color0": "DarkTurquoise",
     "color1": "Purple",
-    "colorStroke": "Black",
+    "colorStroke": "Grey",
     "colorSelect": "MediumOrchid",
     "colorTXT": "White"
 }, {
@@ -97,7 +97,7 @@ gamePalette = [{
 }, {
     "name": "Violet",
     "color0": "#8e98f5",
-    "color1": "#7971ea",
+    "color1": "DarkViolet",
     "colorStroke": "#b1cbfa",
     "colorSelect": "#b1cbfa",
     "colorTXT": "#dfe2fe"
