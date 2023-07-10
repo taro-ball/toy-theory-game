@@ -6,7 +6,7 @@ function riddleHint() {
 
     let hint = hints[hintNo];
     hintNo = (hintNo + 1) % hints.length; // Increment hint index and reset to 0 after reaching the last hint
-    
+
     return hint;
 }
 
@@ -14,6 +14,16 @@ function gameLog(message) {
     let previousHtml = logDiv.html(); // get the current log
     logDiv.html(previousHtml + message + '<br><br>'); // append the new message and a newline
     logDiv.elt.scrollTop = logDiv.elt.scrollHeight; // scroll to the bottom
+}
+
+function applyPalette() {
+    color0 = gamePalette[paletteNo].color0;
+    color1 = gamePalette[paletteNo].color1;
+    colorStroke = gamePalette[paletteNo].colorStroke;
+    colorTXT = gamePalette[paletteNo].colorTXT;
+    colorSelect = gamePalette[paletteNo].colorSelect;
+
+    paletteNo = (paletteNo + 1) % gamePalette.length; // Increment index and reset to 0 after reaching the last one
 }
 
 function inverseMapping(map) {
@@ -62,6 +72,37 @@ winMessages = [
     "Puzzle: Solved! You've zeroed in on the solution as precisely as an atom's half-life in a radioactive sample! ☢️➡️⏳",
     "Stupendous! You've observed the puzzle solution, just like Bohr's model observing the quantum leaps of an electron! 🎊⚡️"
 ]
+
+gamePalette = [{
+    "name": "Original",
+    "color0": "DarkTurquoise",
+    "color1": "Purple",
+    "colorStroke": "Black",
+    "colorSelect": "MediumOrchid",
+    "colorTXT": "White"
+}, {
+    "name": "Khaki",
+    "color0": "#9dad7f",
+    "color1": "#557174",
+    "colorStroke": "#525e75",
+    "colorSelect": "#c7cfb7",
+    "colorTXT": "#f7f7e8"
+}, {
+    "name": "Crayon",
+    "color0": "#b6e2d3",
+    "color1": "#ef7c8e",
+    "colorStroke": "DarkGrey",
+    "colorSelect": "#fae8e0",
+    "colorTXT": "#d8a7b1"
+}, {
+    "name": "Violet",
+    "color0": "#8e98f5",
+    "color1": "#7971ea",
+    "colorStroke": "#b1cbfa",
+    "colorSelect": "#b1cbfa",
+    "colorTXT": "#dfe2fe"
+}]
+
 riddles = [{
     "targetMap": [2, 7, 0, 5, 6, 3, 4, 1, 8, 13, 10, 15, 12, 9, 14, 11],
     "boardPatterns": [
@@ -107,7 +148,7 @@ riddles = [{
     "name": "Awesomeness of geometry📐",
     "author": "Robot🤖",
     "winMessage": "I am robot, you can not win me! Beep-beep-bup!",
-}, 
+},
 {
     "targetMap": [15, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 0],
     "boardPatterns": [

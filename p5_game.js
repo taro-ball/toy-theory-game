@@ -1,4 +1,4 @@
-const BOXES_PER_GRID = 16;
+const totalBoxes = 16;
 
 class Box {
     constructor(x, y, boxSize, value, index, isInteractive) {
@@ -14,15 +14,15 @@ class Box {
     }
 
     drawBox() {
-        stroke(this.flash ? 'white' : this.isLocked ? 'DarkGrey' : 'black');
-        strokeWeight(this.flash ? 7 : this.isLocked ? lockedStrokeW : 1);
-        if (!colorWorking) { fill(this.value === 1 ? 'Purple' : 'DarkTurquoise'); }
+        stroke(this.flash ? colorTXT : colorStroke);
+        strokeWeight(this.flash ? 7 : 1);
+        if (!colorWorking) { fill(this.value === 1 ? color1 : color0); }
         else { fill("gray") }
         rect(this.x, this.y, this.boxSize, this.boxSize);
     }
 
     drawIndex() {
-        fill(255);
+        fill(colorTXT);
         textAlign(CENTER, CENTER);
         textSize(this.boxSize / 2)
         noStroke(); // Removes stroke from text
@@ -33,7 +33,7 @@ class Box {
 
     drawSelected() {
         if (!this.isLocked) {
-            fill('MediumOrchid');
+            fill(colorSelect);
             noStroke();
             rect(this.x, this.y, this.boxSize, this.boxSize);
         }
@@ -122,7 +122,7 @@ function redrawSketch() {
         }
     }
 
-    workingGrid = createGrid(miniBoxSize * 4, true, positionXoffset, positionYoffset + miniBoxSize * 16, myPatterns[0]);
+    workingGrid = createGrid(miniBoxSize * 4, true, positionXoffset, positionYoffset + miniBoxSize * 16, Array(totalBoxes).fill(0));
     //mapInput.value(getMapFromGrid(workingGrid).join(','));
     gameLog(`<hr><b>Riddle</b> "${riddles[riddleIndex].name}" by ${riddles[riddleIndex].author} <b>loaded!</b>`)
     redraw();
@@ -136,11 +136,12 @@ let positionXoffset = miniBoxSize;
 let positionYoffset = miniBoxSize;
 let logDiv;
 let hintNo = 0;
+let paletteNo = 0;
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
 
-    for (let i = 0; i < BOXES_PER_GRID; i++) {
+    for (let i = 0; i < totalBoxes; i++) {
         const x = topLeftX + (i % 4) * boxSize;
         const y = topLeftY + Math.floor(i / 4) * boxSize;
         const value = pattern[i];
@@ -170,7 +171,7 @@ function applyMapping(grid, map) {
     // Store the original positions
     let originalPositions = grid.map(box => ({ x: box.x, y: box.y }));
 
-    for (let i = 0; i < BOXES_PER_GRID; i++) {
+    for (let i = 0; i < totalBoxes; i++) {
         const mappedIndex = map[i];
         grid[mappedIndex].x = originalPositions[i].x;
         grid[mappedIndex].y = originalPositions[i].y;
@@ -181,6 +182,7 @@ function applyMapping(grid, map) {
 function setup() {
     document.addEventListener('contextmenu', event => event.preventDefault());
     frameRate(5);
+    applyPalette();
     logDiv = select('#ttLog');
     let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
     myCanvas.parent('canvasContainer');
@@ -228,6 +230,14 @@ function setup() {
     hintButton.parent(row1);
     hintButton.mousePressed(() => { gameLog(`<b>Hint:</b> ${riddleHint()}`) });
 
+    let paletteButton = createButton('Color');
+    paletteButton.parent(row1);
+    paletteButton.mousePressed(() => {
+        gameLog(`Applying palette "${gamePalette[paletteNo].name}"...`);
+        applyPalette();
+    });
+
+
     let helpButton = createButton('Help');
     helpButton.parent(row1);
     helpButton.mousePressed(() => { gameLog(helpMessage[0]) });
@@ -250,6 +260,7 @@ function draw() {
 
     // Drawing arrows
     strokeWeight(2);
+    stroke(color1);
     for (let i = 0; i < myPatterns.length; i++) {
         drawArrow(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4, 16);
         drawArrow(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset - 5 + miniBoxSize * 4, 16);
