@@ -42,15 +42,19 @@ class Box {
     drawArrow() {
         let xoffset = 0;
         let yoffset = 250;
-        const startX = this.initIndex % 4 * this.boxSize + this.boxSize / 2 + xoffset;
-        const startY = Math.floor(this.initIndex / 4) * this.boxSize + this.boxSize / 2 + yoffset;
-        const endX = this.currIndex % 4 * this.boxSize + this.boxSize / 2 + xoffset;
-        const endY = Math.floor(this.currIndex / 4) * this.boxSize + this.boxSize / 2 + yoffset;
+        let minioffset = 2;
+        if (this.initIndex !== this.currIndex) {
+            const startX = this.initIndex % 4 * this.boxSize + this.boxSize / 2 + xoffset - minioffset;
+            const startY = Math.floor(this.initIndex / 4) * this.boxSize + this.boxSize / 2 + yoffset - minioffset * 3;
+            const endX = this.currIndex % 4 * this.boxSize + this.boxSize / 2 + xoffset + minioffset;
+            const endY = Math.floor(this.currIndex / 4) * this.boxSize + this.boxSize / 2 + yoffset + minioffset * 3;
 
-        stroke('red');
-        strokeWeight(2);
-        line(startX, startY, endX, endY);
-        noStroke();
+            stroke(color1);
+            strokeWeight(2);
+            circle(endX, endY, this.boxSize / 14);
+            line(startX, startY, endX, endY);
+            noStroke();
+        }
     }
 
     draw() {
