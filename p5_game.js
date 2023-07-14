@@ -42,12 +42,11 @@ class Box {
     drawArrow() {
         let xoffset = 0;
         let yoffset = 250;
-        let minioffset = 2;
-        if (this.initIndex !== this.currIndex) {
-            const startX = this.initIndex % 4 * this.boxSize + this.boxSize / 2 + xoffset - minioffset;
-            const startY = Math.floor(this.initIndex / 4) * this.boxSize + this.boxSize / 2 + yoffset - minioffset * 3;
-            const endX = this.currIndex % 4 * this.boxSize + this.boxSize / 2 + xoffset + minioffset;
-            const endY = Math.floor(this.currIndex / 4) * this.boxSize + this.boxSize / 2 + yoffset + minioffset * 3;
+        if (this.initIndex !== this.currIndex && drawArrows) {
+            const startX = this.initIndex % 4 * this.boxSize + xoffset + this.boxSize / 2 + this.initIndex;
+            const startY = Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2 + this.initIndex;
+            const endX = this.currIndex % 4 * this.boxSize + xoffset + this.boxSize / 2 + this.initIndex;
+            const endY = Math.floor(this.currIndex / 4) * this.boxSize + yoffset + this.boxSize / 2 + this.initIndex;
 
             stroke(color1);
             strokeWeight(2);
@@ -66,7 +65,7 @@ class Box {
             if (showIndexes) {
                 this.drawIndex()
             };
-            this.drawArrow();
+            //this.drawArrow();
         }
 
     }
@@ -161,6 +160,7 @@ let positionYoffset = miniBoxSize;
 let logDiv;
 let hintNo = 0;
 let paletteNo = 0;
+let drawArrows = 0;
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
     const grid = [];
@@ -247,6 +247,13 @@ function setup() {
             }
         }
         isMapApplied = !isMapApplied;
+        redraw();
+    });
+
+    let arrowsButton = createButton('Toggle Arrows');
+    arrowsButton.parent(row2);
+    arrowsButton.mousePressed(() => {
+        drawArrows = !drawArrows;
         redraw();
     });
 
