@@ -39,12 +39,32 @@ class Box {
         }
     }
 
+    drawArrow() {
+        let xoffset = 0;
+        let yoffset = 250;
+        const startX = this.initIndex % 4 * this.boxSize + this.boxSize / 2 + xoffset;
+        const startY = Math.floor(this.initIndex / 4) * this.boxSize + this.boxSize / 2 + yoffset;
+        const endX = this.currIndex % 4 * this.boxSize + this.boxSize / 2 + xoffset;
+        const endY = Math.floor(this.currIndex / 4) * this.boxSize + this.boxSize / 2 + yoffset;
+
+        stroke('red');
+        strokeWeight(2);
+        line(startX, startY, endX, endY);
+        noStroke();
+    }
+
     draw() {
         this.drawBox();
-        if (this.isInteractive && selected !== null && this.initIndex === selected.initIndex && !this.isLocked) { // Check for locked status here
-            this.drawSelected();
+        if (this.isInteractive) {
+            if (selected !== null && this.initIndex === selected.initIndex && !this.isLocked) { // Check for locked status here
+                this.drawSelected();
+            }
+            if (showIndexes) {
+                this.drawIndex()
+            };
+            this.drawArrow();
         }
-        if (showIndexes && this.isInteractive) this.drawIndex();
+
     }
 
     setPosition(x, y, index) {
@@ -258,12 +278,17 @@ function draw() {
     targetGrids.forEach(drawGrid);
     drawGrid(workingGrid);
 
+    // Draw arrows after all boxes have been drawn
+    for (let box of workingGrid) {
+        box.drawArrow();
+    }
+
     // Drawing arrows
     strokeWeight(2);
     stroke(color1);
     for (let i = 0; i < myPatterns.length; i++) {
-        drawArrow(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4, 16);
-        drawArrow(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset - 5 + miniBoxSize * 4, 16);
+        drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4, 16);
+        drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset - 5 + miniBoxSize * 4, 16);
     }
     noStroke();
 }

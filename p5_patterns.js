@@ -34,7 +34,7 @@ function inverseMapping(map) {
     return inverse;
 }
 
-function drawArrow(x, y, size) {
+function drawDecor(x, y, size) {
     //line(x, y, x, y + size);  // Vertical line
     line(x - size / 2, y + size / 2, x, y + size);  // Diagonal line left
     line(x + size / 2, y + size / 2, x, y + size);  // Diagonal line right
