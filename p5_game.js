@@ -262,14 +262,14 @@ function setup() {
     hintButton.mousePressed(() => { gameLog(`<b>Hint:</b> ${riddleHint()}`) });
 
     let paletteButton = createButton('Color');
-    paletteButton.parent(row1);
+    paletteButton.parent(row2);
     paletteButton.mousePressed(() => {
         gameLog(`Applying palette "${gamePalette[paletteNo].name}"...`);
         applyPalette();
     });
 
 
-    let helpButton = createButton('Help');
+    let helpButton = createButton('<b>Help</b>');
     helpButton.parent(row1);
     helpButton.mousePressed(() => { gameLog(helpMessage[0]) });
 
