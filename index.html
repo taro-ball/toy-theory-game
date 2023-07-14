@@ -25,15 +25,15 @@
 
     #inputContainer {
       display: flex;
-      align-items: center;
-      gap: 20px;
-      margin: 10px;
+      flex-direction: column;
+      gap: 5px;
+      margin: 5px;
     }
 
     #row1,
     #row2 {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 5px;
     }
 
@@ -65,7 +65,7 @@
   </div>
   <div id="gameContainer">
     <div id="canvasContainer"></div>
-    <div id="ttLog">📓Based on <a href=https://en.wikipedia.org/wiki/Spekkens_toy_model>Rob Spekkens's toy model</a>, check more info on our <a href="https://github.com/taro-ball/toy-theory-game">GitHub</a> 🤣💕🙌<br><br>💻 Please note that this game is not optimized for touch devices such as phones. We recommend using a laptop to play.<br><br>🧾Use the working grid at the bottom.<b>Left-click</b> on the tiles to swap them, <b>Right-click</b> to lock/unlock a tile.</div>
+    <div id="ttLog">📓Based on <a href=https://en.wikipedia.org/wiki/Spekkens_toy_model>Rob Spekkens's toy model</a> </div>
   </div>
 
   <script src="p5_patterns.js"></script>
