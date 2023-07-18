@@ -109,6 +109,8 @@ class Box {
 }
 
 function redrawSketch() {
+    bgcolor1 = 220;
+
     riddleIndex = parseInt(riddleSelect.value());
     myPatterns = riddles[riddleIndex].boardPatterns;
     currentTargetMap = riddles[riddleIndex].targetMap;
@@ -209,6 +211,7 @@ function setup() {
     logDiv = select('#ttLog');
     let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
     myCanvas.parent('canvasContainer');
+    myCanvas.color = "red";
 
     let row1 = select('#row1');
     let row2 = select('#row2');
@@ -283,7 +286,7 @@ function drawGrid(grid) {
 }
 
 function draw() {
-    background(220);
+    background(bgcolor1);
     sourceGrids.forEach(drawGrid);
     targetGrids.forEach(drawGrid);
     drawGrid(workingGrid);
@@ -318,6 +321,11 @@ function interact() {
 
                     if (checkWin()) {
                         winMsg = riddles[riddleIndex].winMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
+                        bgcolor1 = color1;
+                        // textAlign(CENTER, CENTER);
+                        // textSize(440)
+                        // fill(colorTXT)
+                        // text("WIN!!!", miniBoxSize, miniBoxSize);
                         gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
                     }
                     break;
