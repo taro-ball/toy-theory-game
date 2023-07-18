@@ -1,7 +1,7 @@
 const totalBoxes = 16;
 
 class Box {
-    constructor(x, y, boxSize, value, index, isInteractive) {
+    constructor(x, y, boxSize, value, index, isInteractive, boxType) {
         this.x = x;
         this.y = y;
         this.boxSize = boxSize;
@@ -11,13 +11,13 @@ class Box {
         this.isInteractive = isInteractive;
         this.flash = false;
         this.isLocked = false;
+        this.boxType = boxType;
     }
 
     drawBox() {
         stroke(this.flash ? colorTXT : colorStroke);
         strokeWeight(this.flash ? 7 : 1);
-        if (!colorWorking) { fill(this.value === 1 ? color1 : color0); }
-        else { fill("gray") }
+        fill(this.value === 1 ? this.boxType === 1 ? color2 : color1 : color0);
         rect(this.x, this.y, this.boxSize, this.boxSize);
     }
 
@@ -125,7 +125,7 @@ function redrawSketch() {
         let boxSize = miniBoxSize;
         let positionX = positionXoffset + i * miniBoxSize * 5;
         let positionY = positionYoffset;
-        sourceGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
+        sourceGrids.push(createGrid(boxSize, false, positionX, positionY, pattern, 0));
     }
 
     for (let i = 0; i < myPatterns.length; i++) {
@@ -133,7 +133,7 @@ function redrawSketch() {
         let boxSize = miniBoxSize;
         let positionX = positionXoffset + i * miniBoxSize * 5;
         let positionY = positionYoffset + miniBoxSize * 5.5;
-        targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern));
+        targetGrids.push(createGrid(boxSize, false, positionX, positionY, pattern, 1));
     }
 
     for (let i = 0; i < targetGrids.length; i++) {
@@ -145,7 +145,7 @@ function redrawSketch() {
         }
     }
 
-    workingGrid = createGrid(miniBoxSize * 4, true, positionXoffset, positionYoffset + miniBoxSize * 16, Array(totalBoxes).fill(0));
+    workingGrid = createGrid(miniBoxSize * 4, true, positionXoffset, positionYoffset + miniBoxSize * 16, Array(totalBoxes).fill(0), 0);
     //mapInput.value(getMapFromGrid(workingGrid).join(','));
     gameLog(`<hr><b>Riddle</b> "${riddles[riddleIndex].name}" by ${riddles[riddleIndex].author} <b>loaded!</b>`)
     redraw();
@@ -153,7 +153,6 @@ function redrawSketch() {
 
 let riddleSelect;
 let showIndexes = true;
-let colorWorking = false;
 let miniBoxSize = 15;
 let positionXoffset = miniBoxSize;
 let positionYoffset = miniBoxSize;
@@ -162,14 +161,14 @@ let hintNo = 0;
 let paletteNo = 0;
 let drawArrows = 0;
 
-function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern) {
+function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern, boxType) {
     const grid = [];
 
     for (let i = 0; i < totalBoxes; i++) {
         const x = topLeftX + (i % 4) * boxSize;
         const y = topLeftY + Math.floor(i / 4) * boxSize;
         const value = pattern[i];
-        grid.push(new Box(x, y, boxSize, value, i, isInteractive));
+        grid.push(new Box(x, y, boxSize, value, i, isInteractive, boxType));
     }
 
     return grid;
@@ -294,11 +293,11 @@ function draw() {
         box.drawArrow();
     }
 
-    // Drawing arrows
     strokeWeight(2);
-    stroke(color1);
     for (let i = 0; i < myPatterns.length; i++) {
+        stroke(color2);
         drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4, 16);
+        stroke(color1);
         drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset - 5 + miniBoxSize * 4, 16);
     }
     noStroke();

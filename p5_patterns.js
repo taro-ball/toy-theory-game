@@ -19,6 +19,7 @@ function gameLog(message) {
 function applyPalette() {
     color0 = gamePalette[paletteNo].color0;
     color1 = gamePalette[paletteNo].color1;
+    color2 = gamePalette[paletteNo].color2 ? gamePalette[paletteNo].color2 : gamePalette[paletteNo].color1;
     colorStroke = gamePalette[paletteNo].colorStroke;
     colorTXT = gamePalette[paletteNo].colorTXT;
     colorSelect = gamePalette[paletteNo].colorSelect;
@@ -74,6 +75,14 @@ winMessages = [
 ]
 
 gamePalette = [{
+    "name": "Light",
+    "color0": "White",
+    "color1": "CornflowerBlue",
+    "color2": "LightCoral",
+    "colorStroke": "Grey",
+    "colorSelect": "MediumOrchid",
+    "colorTXT": "Grey"
+}, {
     "name": "Original",
     "color0": "DarkTurquoise",
     "color1": "Purple",
