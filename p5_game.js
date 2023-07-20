@@ -40,21 +40,34 @@ class Box {
     }
 
     drawArrow() {
+        let arrowDistance = 6; // Distance between arrows
         let xoffset = 0;
         let yoffset = 250;
         if (this.initIndex !== this.currIndex && drawArrows) {
-            const startX = this.initIndex % 4 * this.boxSize + xoffset + this.boxSize / 2 + this.initIndex;
-            const startY = Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2 + this.initIndex;
-            const endX = this.currIndex % 4 * this.boxSize + xoffset + this.boxSize / 2 + this.initIndex;
-            const endY = Math.floor(this.currIndex / 4) * this.boxSize + yoffset + this.boxSize / 2 + this.initIndex;
-
+            const startX = this.initIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
+            const startY = Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
+            const endX = this.currIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
+            const endY = Math.floor(this.currIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
+    
+            // Calculate the slope and offset
+            let dx = endX - startX;
+            let dy = endY - startY;
+            let length = Math.sqrt(dx*dx + dy*dy);
+            dx /= length;
+            dy /= length;
+            
+            // Offset the starting and ending positions by the calculated offsets
+            let offsetX = dy * arrowDistance;
+            let offsetY = -dx * arrowDistance;
+    
             stroke(color1);
             strokeWeight(2);
-            circle(endX, endY, this.boxSize / 14);
-            line(startX, startY, endX, endY);
+            circle(endX + offsetX, endY + offsetY, this.boxSize / 14);
+            line(startX + offsetX, startY + offsetY, endX + offsetX, endY + offsetY);
             noStroke();
         }
     }
+    
 
     draw() {
         this.drawBox();
