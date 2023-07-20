@@ -176,7 +176,7 @@ let positionYoffset = miniBoxSize;
 let logDiv;
 let hintNo = 0;
 let paletteNo = 0;
-let drawArrows = 0;
+let drawArrows = 1;
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern, boxType) {
     const grid = [];
