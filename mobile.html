@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Toy Theory Game</title>
+  <link rel="icon" type="image/png" href="https://img.icons8.com/?size=1x&id=CPt6dvVSzIHn"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #555555;
+      padding: 0;
+      margin: 0;
+    }
+  
+    #gameContainer {
+      display: flex;
+      flex-direction: column;   /* Updated from row to column */
+      align-items: center;      /* Added to center align items */
+      gap: 10px;
+    }
+  
+    #inputContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin: 5px;
+    }
+  
+    #row1,
+    #row2 {
+      display: flex;
+      justify-content: flex-start;
+      gap: 5px;
+    }
+  
+    #canvasContainer {
+      display: flex;
+      justify-content: center;
+      border: 3px solid rgb(55, 55, 55);
+    }
+  
+    #ttLog {
+      height: 400px;
+      width: 100%;
+      border: 3px solid rgb(55, 55, 55);
+      padding: 3px;
+      background-color: #c8ff94;
+      overflow-y: scroll;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+  </style>
+  
+</head>
+
+<body>
+  <div id="gameContainer">
+    <div id="ttLog">📓Based on <a href=https://en.wikipedia.org/wiki/Spekkens_toy_model>Rob Spekkens's toy model</a> </div>
+    <div id="canvasContainer"></div>
+    
+  </div>
+  <div id="inputContainer">
+    <div id="row1"></div>
+    <div id="row2"></div>
+  </div>
+  <script src="p5_patterns.js"></script>
+  <br><!--to make sure patterns load first-->
+  <script src="p5_game.js"></script>
+</body>
+
+</html>
