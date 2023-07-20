@@ -36,9 +36,8 @@ function inverseMapping(map) {
 }
 
 function drawDecor(x, y, size) {
-    //line(x, y, x, y + size);  // Vertical line
-    line(x - size / 2, y + size / 2, x, y + size);  // Diagonal line left
-    line(x + size / 2, y + size / 2, x, y + size);  // Diagonal line right
+    line(x - size / 2, y + size / 2, x, y + size);
+    line(x + size / 2, y + size / 2, x, y + size);
 }
 
 helpMessage = [`<b>How to play:</b>
