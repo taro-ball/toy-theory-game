@@ -49,24 +49,26 @@ class Box {
             const endX = this.currIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
             const endY = Math.floor(this.currIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
     
-            // Calculate the slope and offset
-            let dx = endX - startX;
-            let dy = endY - startY;
-            let length = Math.sqrt(dx*dx + dy*dy);
-            dx /= length;
-            dy /= length;
-            
-            // Offset the starting and ending positions by the calculated offsets
-            let offsetX = dy * arrowDistance;
-            let offsetY = -dx * arrowDistance;
+            // Calculate the angle
+            const arrowAngle = Math.atan2(endY - startY, endX - startX);
+    
+            // Calculate arrow head points
+            const arrowLength = 20;
+            const arrowWidth = 5;
+            const arrowHeadX1 = endX - arrowLength * Math.cos(arrowAngle) + arrowWidth * Math.sin(arrowAngle);
+            const arrowHeadY1 = endY - arrowLength * Math.sin(arrowAngle) - arrowWidth * Math.cos(arrowAngle);
+            const arrowHeadX2 = endX - arrowLength * Math.cos(arrowAngle) - arrowWidth * Math.sin(arrowAngle);
+            const arrowHeadY2 = endY - arrowLength * Math.sin(arrowAngle) + arrowWidth * Math.cos(arrowAngle);
     
             stroke(color1);
             strokeWeight(2);
-            circle(endX + offsetX, endY + offsetY, this.boxSize / 14);
-            line(startX + offsetX, startY + offsetY, endX + offsetX, endY + offsetY);
+            line(startX, startY, endX, endY);
+            line(arrowHeadX1, arrowHeadY1, endX, endY);
+            line(arrowHeadX2, arrowHeadY2, endX, endY);
             noStroke();
         }
     }
+    
     
 
     draw() {
