@@ -224,7 +224,15 @@ function setup() {
     frameRate(5);
     applyPalette();
     logDiv = select('#ttLog');
-    let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
+
+    let canvasContainer = document.getElementById('canvasContainer');
+    let containerWidth = canvasContainer.offsetWidth;
+    let containerHeight = canvasContainer.offsetHeight;
+    
+    let myCanvas = createCanvas(containerWidth, containerHeight);
+
+    //let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
+    //let myCanvas = createCanvas();
     myCanvas.parent('canvasContainer');
     myCanvas.color = "red";
 
