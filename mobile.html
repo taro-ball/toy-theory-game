@@ -7,54 +7,54 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
   <style>
     body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #555555;
-      padding: 0;
-      margin: 0;
-    }
-  
-    #gameContainer {
-      display: flex;
-      flex-direction: column;   /* Updated from row to column */
-      align-items: center;      /* Added to center align items */
-      gap: 10px;
-    }
-  
-    #inputContainer {
-      display: flex;
-      gap: 15px;
-      margin: 5px;
-    }
-  
-    #row1,
-    #row2 {
-      display: flex;
-      justify-content: flex-start;
-      gap: 5px;
-    }
-  
-    #canvasContainer {
-      display: flex;
-      justify-content: center;
-      border: 3px solid rgb(55, 55, 55);
-    }
-  
-    #ttLog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #555555;
+  padding: 0;
+  margin: 0;
+}
+
+#gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  /*min-height: 100vh;  Set a minimum height to ensure the content fills the viewport */
+}
+
+#inputContainer {
+  display: flex;
+  gap: 15px;
+  margin: 5px;
+}
+
+#row1,
+#row2 {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+#canvasContainer {
+  display: flex;
+  justify-content: center;
+  border: 3px solid rgb(55, 55, 55);
+}
+
+#ttLog {
       height: 22vh;
-      width: 100%;
-      border: 3px solid rgb(55, 55, 55);
-      padding: 3px;
-      background-color: #c8ff94;
+  width: 100%;
+  border: 3px solid rgb(55, 55, 55);
+  padding: 3px;
+  background-color: #c8ff94;
       overflow-y: scroll;
-      font-family: monospace;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
   </style>
   
 </head>
