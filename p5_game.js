@@ -40,9 +40,10 @@ class Box {
     }
 
     drawArrow() {
-        let arrowDistance = 6; // Distance between arrows
-        let xoffset = 0;
-        let yoffset = 250;
+        //let arrowDistance = 6; // Distance between arrows
+        let xoffset = miniBoxSize;
+        let yoffset = this.boxSize * 4.3;
+        //gameLog(yoffset);
         if (this.initIndex !== this.currIndex && drawArrows) {
             const startX = this.initIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
             const startY = Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
@@ -168,11 +169,11 @@ function redrawSketch() {
     redraw();
 }
 
+let miniBoxSize = 0;
+let positionXoffset = 0;
+let positionYoffset = 0;
 let riddleSelect;
 let showIndexes = true;
-let miniBoxSize = 15;
-// let positionXoffset = miniBoxSize;
-// let positionYoffset = miniBoxSize;
 let logDiv;
 let hintNo = 0;
 let paletteNo = 0;
@@ -226,10 +227,11 @@ function setup() {
     logDiv = select('#ttLog');
 
     let canvasContainer = document.getElementById('canvasContainer');
-    let containerWidth = canvasContainer.offsetWidth;
-    let containerHeight = canvasContainer.offsetWidth * 0.74;//canvasContainer.offsetHeight;
 
-    miniBoxSize = containerWidth/46;
+    miniBoxSize = canvasContainer.offsetWidth / 48;
+    let containerWidth = miniBoxSize * 46;
+    let containerHeight = miniBoxSize * 34;//canvasContainer.offsetHeight;
+
     positionXoffset = miniBoxSize;
     positionYoffset = miniBoxSize;
 
