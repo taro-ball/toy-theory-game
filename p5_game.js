@@ -48,10 +48,10 @@ class Box {
             const startY = Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
             const endX = this.currIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
             const endY = Math.floor(this.currIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
-    
+
             // Calculate the angle
             const arrowAngle = Math.atan2(endY - startY, endX - startX);
-    
+
             // Calculate arrow head points
             const arrowLength = 20;
             const arrowWidth = 5;
@@ -59,7 +59,7 @@ class Box {
             const arrowHeadY1 = endY - arrowLength * Math.sin(arrowAngle) - arrowWidth * Math.cos(arrowAngle);
             const arrowHeadX2 = endX - arrowLength * Math.cos(arrowAngle) - arrowWidth * Math.sin(arrowAngle);
             const arrowHeadY2 = endY - arrowLength * Math.sin(arrowAngle) + arrowWidth * Math.cos(arrowAngle);
-    
+
             stroke(color1);
             strokeWeight(2);
             line(startX, startY, endX, endY);
@@ -68,8 +68,6 @@ class Box {
             noStroke();
         }
     }
-    
-    
 
     draw() {
         this.drawBox();
@@ -114,14 +112,73 @@ class Box {
         }, 100);
     }
 
-    contains(mouseX, mouseY) {
-        return (mouseX > this.x && mouseX < this.x + this.boxSize && mouseY > this.y && mouseY < this.y + this.boxSize);
+    // contains(mouseX, mouseY) {
+    //     return (mouseX > this.x && mouseX < this.x + this.boxSize && mouseY > this.y && mouseY < this.y + this.boxSize);
+    // }
+
+    contains(touchX, touchY) {
+        return (touchX > this.x && touchX < this.x + this.boxSize && touchY> this.y && touchY < this.y + this.boxSize);
     }
 
     toggleLock() {
         this.isLocked = !this.isLocked; // Toggle the lock status
     }
 }
+
+// Touch events variables
+let touchStartX;
+let touchStartY;
+let longPressTimer;
+
+function touchStarted(event) {
+    touchStartX = event.changedTouches[0].pageX;
+    touchStartY = event.changedTouches[0].pageY;
+
+    longPressTimer = setTimeout(() => {
+        if (workingGrid[i].contains(touchStartX, touchStartY) && workingGrid[i].isInteractive) {
+            workingGrid[i].toggleLock();
+            redraw();
+        }
+    }, 1000); // 1 second to trigger the long press event
+
+    return false; // To prevent any default behavior for the touch events
+}
+
+function touchEnded(event) {
+    clearTimeout(longPressTimer);
+
+    let touchX = event.changedTouches[0].pageX;
+    let touchY = event.changedTouches[0].pageY;
+
+    if (touchX > 0 && touchX < width && touchY > 0 && touchY < height) {
+        for (let i = 0; i < workingGrid.length; i++) {
+            if (workingGrid[i].contains(touchX, touchY) && workingGrid[i].isInteractive) {
+                if (selected !== null) {
+                    workingGrid[i].swap(selected);
+                    selected = null;
+                } else {
+                    selected = workingGrid[i];
+                }
+                redraw();
+
+                if (checkWin()) {
+                    winMsg = riddles[riddleIndex].winMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
+                    bgcolor1 = color1;
+                    gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
+                }
+                break;
+            }
+        }
+    }
+
+    return false; // To prevent any default behavior for the touch events
+}
+
+
+function touchMoved() {
+    return false; // To prevent any default behavior for the touch events
+}
+
 
 function redrawSketch() {
     bgcolor1 = 220;
@@ -228,7 +285,7 @@ function setup() {
     let canvasContainer = document.getElementById('canvasContainer');
     let containerWidth = canvasContainer.offsetWidth;
     let containerHeight = canvasContainer.offsetHeight;
-    
+
     let myCanvas = createCanvas(containerWidth, containerHeight);
 
     //let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
@@ -329,44 +386,7 @@ function draw() {
     noStroke();
 }
 
-function interact() {
-    if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
-        for (let i = 0; i < workingGrid.length; i++) {
-            if (workingGrid[i].contains(mouseX, mouseY) && workingGrid[i].isInteractive) {
-                if (mouseButton === LEFT) {
-                    if (selected !== null) {
-                        workingGrid[i].swap(selected);
-                        selected = null;
-                    } else {
-                        selected = workingGrid[i];
-                    }
-                    redraw();
 
-                    if (checkWin()) {
-                        winMsg = riddles[riddleIndex].winMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
-                        bgcolor1 = color1;
-                        // textAlign(CENTER, CENTER);
-                        // textSize(440)
-                        // fill(colorTXT)
-                        // text("WIN!!!", miniBoxSize, miniBoxSize);
-                        gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
-                    }
-                    break;
-                } else if (mouseButton === RIGHT) {
-                    workingGrid[i].toggleLock();
-                    redraw();
-                    break;
-                }
-            }
-        }
-    }
-}
-
-
-
-function mousePressed() {
-    interact();
-}
 // keep it commented until figure out touch controls
 // function touchStarted() {
 //     interact();
