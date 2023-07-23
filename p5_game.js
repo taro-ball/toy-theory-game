@@ -48,10 +48,10 @@ class Box {
             const startY = Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
             const endX = this.currIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
             const endY = Math.floor(this.currIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
-    
+
             // Calculate the angle
             const arrowAngle = Math.atan2(endY - startY, endX - startX);
-    
+
             // Calculate arrow head points
             const arrowLength = 20;
             const arrowWidth = 5;
@@ -59,7 +59,7 @@ class Box {
             const arrowHeadY1 = endY - arrowLength * Math.sin(arrowAngle) - arrowWidth * Math.cos(arrowAngle);
             const arrowHeadX2 = endX - arrowLength * Math.cos(arrowAngle) - arrowWidth * Math.sin(arrowAngle);
             const arrowHeadY2 = endY - arrowLength * Math.sin(arrowAngle) + arrowWidth * Math.cos(arrowAngle);
-    
+
             stroke(color1);
             strokeWeight(2);
             line(startX, startY, endX, endY);
@@ -68,8 +68,8 @@ class Box {
             noStroke();
         }
     }
-    
-    
+
+
 
     draw() {
         this.drawBox();
@@ -171,8 +171,8 @@ function redrawSketch() {
 let riddleSelect;
 let showIndexes = true;
 let miniBoxSize = 15;
-let positionXoffset = miniBoxSize;
-let positionYoffset = miniBoxSize;
+// let positionXoffset = miniBoxSize;
+// let positionYoffset = miniBoxSize;
 let logDiv;
 let hintNo = 0;
 let paletteNo = 0;
@@ -227,8 +227,12 @@ function setup() {
 
     let canvasContainer = document.getElementById('canvasContainer');
     let containerWidth = canvasContainer.offsetWidth;
-    let containerHeight = canvasContainer.offsetHeight;
-    
+    let containerHeight = canvasContainer.offsetWidth * 0.74;//canvasContainer.offsetHeight;
+
+    miniBoxSize = containerWidth/46;
+    positionXoffset = miniBoxSize;
+    positionYoffset = miniBoxSize;
+
     let myCanvas = createCanvas(containerWidth, containerHeight);
 
     //let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
