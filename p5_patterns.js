@@ -39,6 +39,7 @@ function drawDecor(x, y, size) {
     line(x - size / 2, y + size / 2, x, y + size);
     line(x + size / 2, y + size / 2, x, y + size);
 }
+
 greetMessage = [`<hr>📓Based on:<br> <a href=https://en.wikipedia.org/wiki/Spekkens_toy_model>Rob Spekkens's toy model</a><br>
 🧩github.com:<br> <a href=https://github.com/taro-ball/toy-theory-game>toy-theory-game</a>`]
 

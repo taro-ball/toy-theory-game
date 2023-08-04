@@ -329,9 +329,9 @@ function draw() {
     strokeWeight(2);
     for (let i = 0; i < myPatterns.length; i++) {
         stroke(color2);
-        drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4, 16);
+        drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4.15, miniBoxSize);
         stroke(color1);
-        drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset - 5 + miniBoxSize * 4, 16);
+        drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset - miniBoxSize / 3 + miniBoxSize * 4.15, miniBoxSize);
     }
     noStroke();
 }
