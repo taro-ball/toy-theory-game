@@ -82,7 +82,7 @@ gamePalettes = [{
     "color1": "CornflowerBlue",
     "color2": "LightCoral",
     "colorStroke": "Grey",
-    "colorSelect": "MediumOrchid",
+    "colorSelect": "LightCoral",
     "colorTXT": "Grey"
 }, {
     "name": "Original",
