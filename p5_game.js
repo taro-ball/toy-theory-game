@@ -84,7 +84,7 @@ function setup() {
     let paletteButton = createButton('Color');
     paletteButton.parent(row2);
     paletteButton.mousePressed(() => {
-        gameLog(`Applying palette "${gamePalette[paletteNo].name}"...`);
+        gameLog(`Applying palette "${gamePalettes[paletteNo].name}"...`);
         applyPalette();
     });
 

@@ -17,14 +17,14 @@ function gameLog(message) {
 }
 
 function applyPalette() {
-    color0 = gamePalette[paletteNo].color0;
-    color1 = gamePalette[paletteNo].color1;
-    color2 = gamePalette[paletteNo].color2 ? gamePalette[paletteNo].color2 : gamePalette[paletteNo].color1;
-    colorStroke = gamePalette[paletteNo].colorStroke;
-    colorTXT = gamePalette[paletteNo].colorTXT;
-    colorSelect = gamePalette[paletteNo].colorSelect;
+    color0 = gamePalettes[paletteNo].color0;
+    color1 = gamePalettes[paletteNo].color1;
+    color2 = gamePalettes[paletteNo].color2 ? gamePalettes[paletteNo].color2 : gamePalettes[paletteNo].color1;
+    colorStroke = gamePalettes[paletteNo].colorStroke;
+    colorTXT = gamePalettes[paletteNo].colorTXT;
+    colorSelect = gamePalettes[paletteNo].colorSelect;
 
-    paletteNo = (paletteNo + 1) % gamePalette.length; // Increment index and reset to 0 after reaching the last one
+    paletteNo = (paletteNo + 1) % gamePalettes.length; // Increment index and reset to 0 after reaching the last one
 }
 
 function inverseMapping(map) {
@@ -76,7 +76,7 @@ winMessages = [
     "Stupendous! You've observed the puzzle solution, just like Bohr's model observing the quantum leaps of an electron! 🎊⚡️"
 ]
 
-gamePalette = [{
+gamePalettes = [{
     "name": "Light",
     "color0": "White",
     "color1": "CornflowerBlue",
