@@ -54,15 +54,15 @@ class Box {
             const arrowAngle = Math.atan2(endY - startY, endX - startX);
 
             // Calculate arrow head points
-            const arrowLength = 20;
-            const arrowWidth = 5;
+            const arrowLength = miniBoxSize;
+            const arrowWidth = miniBoxSize / 3;
             const arrowHeadX1 = endX - arrowLength * Math.cos(arrowAngle) + arrowWidth * Math.sin(arrowAngle);
             const arrowHeadY1 = endY - arrowLength * Math.sin(arrowAngle) - arrowWidth * Math.cos(arrowAngle);
             const arrowHeadX2 = endX - arrowLength * Math.cos(arrowAngle) - arrowWidth * Math.sin(arrowAngle);
             const arrowHeadY2 = endY - arrowLength * Math.sin(arrowAngle) + arrowWidth * Math.cos(arrowAngle);
 
             stroke(color1);
-            strokeWeight(2);
+            strokeWeight(miniBoxSize/8);
             line(startX, startY, endX, endY);
             line(arrowHeadX1, arrowHeadY1, endX, endY);
             line(arrowHeadX2, arrowHeadY2, endX, endY);
