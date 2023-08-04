@@ -305,6 +305,7 @@ function setup() {
     helpButton.mousePressed(() => { gameLog(helpMessage[0]) });
 
     // Draw initial board
+    gameLog(greetMessage);
     redrawSketch();
 }
 
