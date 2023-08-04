@@ -129,7 +129,7 @@ riddles = [{
     ],
     "name": "The Original🧩",
     "author": "Rob🧑‍🏫",
-    "winMessage": "Impressive! You cracked it! 🥳🍾 (but Nitica was the first 😏🥇)",
+    "CustomWinMessage": "Impressive! You cracked it! 🥳🍾 (but Nitica was the first 😏🥇)",
 }, {
     "targetMap": [0, 1, 2, 11, 4, 5, 6, 15, 8, 9, 10, 3, 12, 13, 14, 7],
     "boardPatterns": [
@@ -158,7 +158,7 @@ riddles = [{
     ],
     "name": "Awesomeness of geometry📐",
     "author": "Robot🤖",
-    "winMessage": "I am robot, you can not win me! Beep-beep-bup!",
+    "CustomWinMessage": "I am robot, you can not win me! Beep-beep-bup!",
 },
 {
     "targetMap": [15, 1, 2, 3, 4, 5, 10, 7, 8, 9, 6, 11, 12, 13, 14, 0],

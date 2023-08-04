@@ -351,7 +351,7 @@ function interact() {
                     redraw();
 
                     if (checkWin()) {
-                        winMsg = riddles[riddleIndex].winMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
+                        winMsg = riddles[riddleIndex].CustomWinMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
                         bgcolor1 = color1;
                         // textAlign(CENTER, CENTER);
                         // textSize(440)
