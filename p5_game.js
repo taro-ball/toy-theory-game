@@ -1,4 +1,102 @@
 const totalBoxes = 16;
+let miniBoxSize = 0;
+let positionXoffset = 0;
+let positionYoffset = 0;
+let riddleSelect;
+let showIndexes = true;
+let logDiv;
+let hintNo = 0;
+let paletteNo = 0;
+let drawArrows = 1;
+
+function setup() {
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    frameRate(5);
+    applyPalette();
+    logDiv = select('#ttLog');
+
+    let canvasContainer = document.getElementById('canvasContainer');
+
+    miniBoxSize = canvasContainer.offsetWidth / 48;
+    let containerWidth = miniBoxSize * 46;
+    let containerHeight = miniBoxSize * 34;//canvasContainer.offsetHeight;
+
+    positionXoffset = miniBoxSize;
+    positionYoffset = miniBoxSize;
+
+    let myCanvas = createCanvas(containerWidth, containerHeight);
+
+    //let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
+    //let myCanvas = createCanvas();
+    myCanvas.parent('canvasContainer');
+    myCanvas.color = "red";
+
+    let row1 = select('#row1');
+    let row2 = select('#row2');
+
+    riddleSelect = createSelect();
+    riddleSelect.parent(row1);
+    //riddleSelect.position(windowWidth / 2 + 90, 130);
+    for (let i = 0; i < riddles.length; i++) {
+        riddleSelect.option('Riddle ' + (i + 1), i);
+    }
+    riddleSelect.changed(redrawSketch);
+
+    let resetButton = createButton('Reset');
+    resetButton.parent(row1);
+    resetButton.mousePressed(redrawSketch);
+
+    let isMapApplied = false;
+    let applyMapButton = createButton('Apply Map');
+    applyMapButton.parent(row1);
+    //applyMapButton.position(windowWidth / 2 + 90, 105);
+    applyMapButton.mousePressed(() => {
+        let map = getMapFromGrid(workingGrid);
+        if (isMapApplied) {
+            map = inverseMapping(map);
+            applyMapButton.html('Apply Map'); // Change button text back to 'Apply Map'
+        } else {
+            applyMapButton.html('Undo Map'); // Change button text to 'Undo Map'
+        }
+        for (let i = 0; i < sourceGrids.length; i++) {
+            try {
+                applyMapping(sourceGrids[i], map);
+            } catch (error) {
+                alert('Invalid mapping. Please enter a valid map.');
+                return;
+            }
+        }
+        isMapApplied = !isMapApplied;
+        redraw();
+    });
+
+    let arrowsButton = createButton('Toggle Arrows');
+    arrowsButton.parent(row2);
+    arrowsButton.mousePressed(() => {
+        drawArrows = !drawArrows;
+        redraw();
+    });
+
+    let hintButton = createButton('Hint');
+    hintButton.parent(row1);
+    hintButton.mousePressed(() => { gameLog(`<b>Hint:</b> ${riddleHint()}`) });
+
+    let paletteButton = createButton('Color');
+    paletteButton.parent(row2);
+    paletteButton.mousePressed(() => {
+        gameLog(`Applying palette "${gamePalette[paletteNo].name}"...`);
+        applyPalette();
+    });
+
+
+    let helpButton = createButton('<b>Help</b>');
+    helpButton.parent(row1);
+    helpButton.mousePressed(() => { gameLog(helpMessage[0]) });
+
+    // Draw initial board
+    gameLog(greetMessage);
+    redrawSketch();
+}
 
 class Box {
     constructor(x, y, boxSize, value, index, isInteractive, boxType) {
@@ -17,7 +115,7 @@ class Box {
     drawBox() {
         stroke(this.flash ? colorTXT : colorStroke);
         strokeWeight(this.flash ? miniBoxSize / 2 : miniBoxSize / 16);
-        fill(this.value === 1 ? this.boxType === 1 ? color2 : color1 : color0);
+        fill(this.value === 1 ? (this.boxType === 1 ? color2 : color1) : color0);
         rect(this.x, this.y, this.boxSize, this.boxSize);
     }
 
@@ -124,6 +222,7 @@ class Box {
     }
 }
 
+
 function redrawSketch() {
     bgcolor1 = 220;
 
@@ -169,15 +268,6 @@ function redrawSketch() {
     redraw();
 }
 
-let miniBoxSize = 0;
-let positionXoffset = 0;
-let positionYoffset = 0;
-let riddleSelect;
-let showIndexes = true;
-let logDiv;
-let hintNo = 0;
-let paletteNo = 0;
-let drawArrows = 1;
 
 function createGrid(boxSize, isInteractive, topLeftX, topLeftY, pattern, boxType) {
     const grid = [];
@@ -218,95 +308,6 @@ function applyMapping(grid, map) {
         grid[mappedIndex].y = originalPositions[i].y;
         grid[mappedIndex].currIndex = i;
     }
-}
-
-function setup() {
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    frameRate(5);
-    applyPalette();
-    logDiv = select('#ttLog');
-
-    let canvasContainer = document.getElementById('canvasContainer');
-
-    miniBoxSize = canvasContainer.offsetWidth / 48;
-    let containerWidth = miniBoxSize * 46;
-    let containerHeight = miniBoxSize * 34;//canvasContainer.offsetHeight;
-
-    positionXoffset = miniBoxSize;
-    positionYoffset = miniBoxSize;
-
-    let myCanvas = createCanvas(containerWidth, containerHeight);
-
-    //let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
-    //let myCanvas = createCanvas();
-    myCanvas.parent('canvasContainer');
-    myCanvas.color = "red";
-
-    let row1 = select('#row1');
-    let row2 = select('#row2');
-
-    riddleSelect = createSelect();
-    riddleSelect.parent(row1);
-    //riddleSelect.position(windowWidth / 2 + 90, 130);
-    for (let i = 0; i < riddles.length; i++) {
-        riddleSelect.option('Riddle ' + (i + 1), i);
-    }
-    riddleSelect.changed(redrawSketch);
-
-    let resetButton = createButton('Reset');
-    resetButton.parent(row1);
-    resetButton.mousePressed(redrawSketch);
-
-    let isMapApplied = false;
-    let applyMapButton = createButton('Apply Map');
-    applyMapButton.parent(row1);
-    //applyMapButton.position(windowWidth / 2 + 90, 105);
-    applyMapButton.mousePressed(() => {
-        let map = getMapFromGrid(workingGrid);
-        if (isMapApplied) {
-            map = inverseMapping(map);
-            applyMapButton.html('Apply Map'); // Change button text back to 'Apply Map'
-        } else {
-            applyMapButton.html('Undo Map'); // Change button text to 'Undo Map'
-        }
-        for (let i = 0; i < sourceGrids.length; i++) {
-            try {
-                applyMapping(sourceGrids[i], map);
-            } catch (error) {
-                alert('Invalid mapping. Please enter a valid map.');
-                return;
-            }
-        }
-        isMapApplied = !isMapApplied;
-        redraw();
-    });
-
-    let arrowsButton = createButton('Toggle Arrows');
-    arrowsButton.parent(row2);
-    arrowsButton.mousePressed(() => {
-        drawArrows = !drawArrows;
-        redraw();
-    });
-
-    let hintButton = createButton('Hint');
-    hintButton.parent(row1);
-    hintButton.mousePressed(() => { gameLog(`<b>Hint:</b> ${riddleHint()}`) });
-
-    let paletteButton = createButton('Color');
-    paletteButton.parent(row2);
-    paletteButton.mousePressed(() => {
-        gameLog(`Applying palette "${gamePalette[paletteNo].name}"...`);
-        applyPalette();
-    });
-
-
-    let helpButton = createButton('<b>Help</b>');
-    helpButton.parent(row1);
-    helpButton.mousePressed(() => { gameLog(helpMessage[0]) });
-
-    // Draw initial board
-    gameLog(greetMessage);
-    redrawSketch();
 }
 
 function drawGrid(grid) {
