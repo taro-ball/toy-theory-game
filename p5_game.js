@@ -16,7 +16,7 @@ class Box {
 
     drawBox() {
         stroke(this.flash ? colorTXT : colorStroke);
-        strokeWeight(this.flash ? 7 : 1);
+        strokeWeight(this.flash ? miniBoxSize / 2 : miniBoxSize / 16);
         fill(this.value === 1 ? this.boxType === 1 ? color2 : color1 : color0);
         rect(this.x, this.y, this.boxSize, this.boxSize);
     }
@@ -62,7 +62,7 @@ class Box {
             const arrowHeadY2 = endY - arrowLength * Math.sin(arrowAngle) + arrowWidth * Math.cos(arrowAngle);
 
             stroke(color1);
-            strokeWeight(miniBoxSize/8);
+            strokeWeight(miniBoxSize / 8);
             line(startX, startY, endX, endY);
             line(arrowHeadX1, arrowHeadY1, endX, endY);
             line(arrowHeadX2, arrowHeadY2, endX, endY);
@@ -326,7 +326,7 @@ function draw() {
         box.drawArrow();
     }
 
-    strokeWeight(2);
+    strokeWeight(miniBoxSize / 8);
     for (let i = 0; i < myPatterns.length; i++) {
         stroke(color2);
         drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset + miniBoxSize * 4.15, miniBoxSize);
