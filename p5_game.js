@@ -143,8 +143,8 @@ class Box {
         let yoffset = this.boxSize * 4.3;
         //gameLog(yoffset);
         if (this.initIndex !== this.currIndex && drawArrows) {
-            const startX = workingGrid[this.currIndex].getPosition()[0]+ this.boxSize / 2; // this.initIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
-            const startY = workingGrid[this.currIndex].getPosition()[1]+ this.boxSize / 2; //Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
+            const startX = workingGrid[this.currIndex].getPosition().x + this.boxSize / 2; // this.initIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
+            const startY = workingGrid[this.currIndex].getPosition().y + this.boxSize / 2; //Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
             //gameLog(workingGrid[this.initIndex].getPosition()[0]) ;
             const endX = this.x + this.boxSize / 2; //this.currIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
             const endY = this.y + this.boxSize / 2; //Math.floor(this.currIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
@@ -192,7 +192,7 @@ class Box {
     }
 
     getPosition() {
-        return ([this.x, this.y])
+        return { "x": this.x, "y": this.y };
     }
 
     swap(other) {
