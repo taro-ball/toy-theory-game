@@ -360,80 +360,146 @@ function draw() {
 
 let isContextMenuVisible = false;
 let contextMenuBox = null;
+let contextMenu = {
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 0  // Will be updated when menu items are populated
+};
+
+let contextMenuBounds = { x: 0, y: 0, width: 100, height: 0 };  // initial bounds for the context menu
+
+function isWithinContextMenu(x, y) {
+    return x >= contextMenuBounds.x && x <= contextMenuBounds.x + contextMenuBounds.width &&
+        y >= contextMenuBounds.y && y <= contextMenuBounds.y + contextMenuBounds.height;
+}
 
 function interact() {
+    // If a context menu is visible and we clicked within its bounds.
+    if (isContextMenuVisible && isWithinContextMenu(mouseX, mouseY)) {
+        handleContextMenuClick(contextMenuBox); // Use the stored contextMenuBox here.
+        isContextMenuVisible = false; 
+        contextMenuBox = null;
+        redraw();
+        return;
+    }
+    
+    // If we clicked outside the context menu, hide it.
+    else if (isContextMenuVisible && !isWithinContextMenu(mouseX, mouseY)) {
+        isContextMenuVisible = false; contextMenuBox = null;
+        redraw();
+        return;
+    }
+    // Handle other interactions when context menu isn't in the forefront.
     if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
         for (let i = 0; i < workingGrid.length; i++) {
             if (workingGrid[i].contains(mouseX, mouseY) && workingGrid[i].isInteractive) {
-                if (mouseButton === LEFT) {
-                    if (isContextMenuVisible) {
-                        handleContextMenuClick(workingGrid[i]);
-                        isContextMenuVisible = false;
-                        redraw();
-                    } else {
-                        displayContextMenu(workingGrid[i].getPosition().x, workingGrid[i].getPosition().y, workingGrid[i]);
-                    }
-                    break;
-                }
+
+                contextMenuBox = workingGrid[i];
+                const pos = contextMenuBox.getPosition();
+                displayContextMenu(pos.x, pos.y, contextMenuBox);
+
+                contextMenuBounds.x = workingGrid[i].getPosition().x;
+                contextMenuBounds.y = workingGrid[i].getPosition().y;
+                contextMenuBounds.height = menuItems.length * 20;  // assuming each menu item takes 20 pixels in height
+                isContextMenuVisible = true;
+                redraw();
+                break;
             }
         }
     }
 }
 
-function displayContextMenu(x, y, box) {
-    isContextMenuVisible = true;
-    contextMenuBox = box;
-    
-    push();
-    fill(220); // Gray background for the menu
-    rect(x, y, 100, 50); // Menu rectangle. Adjust size as needed.
-    
-    fill(0); // Black text
-    textAlign(LEFT, TOP);
-    textSize(12);
-    
-    if (selected && selected !== box) {
-        text('Swap', x + 10, y + 10);
+
+
+
+class MenuItem {
+    constructor(text, action) {
+        this.text = text;
+        this.action = action;
+    }
+
+    draw(x, y) {
+        fill(0); // Black text
+        textAlign(LEFT, TOP);
+        textSize(12);
+        text(this.text, x + 10, y);
+    }
+
+    executeAction(box) {
+        this.action(box);
+    }
+}
+
+let menuItems = [];
+
+function populateMenuItems(box) {
+    menuItems = [];
+
+    if (!box.isLocked) {
+        menuItems.push(new MenuItem('Select', (box) => {
+            selected = box;
+        }));
+
+        if (selected && selected !== box) {
+            menuItems.push(new MenuItem('Swap', (box) => {
+                box.swap(selected);
+                selected = null;
+            }));
+        }
+
+        menuItems.push(new MenuItem('Lock', (box) => {
+            box.toggleLock();
+        }));
     } else {
-        text('Select', x + 10, y + 10);
+        menuItems.push(new MenuItem('Unlock', (box) => {
+            box.toggleLock();
+        }));
     }
 
     if (selected) {
-        text('Cancel', x + 10, y + 30);
-    } else {
-        text('Toggle Lock', x + 10, y + 30);
+        menuItems.push(new MenuItem('Cancel', (box) => {
+            selected = null;
+        }));
     }
-    
+}
+
+function displayContextMenu(x, y, box) {
+    populateMenuItems(box);
+
+    contextMenu.x = x;
+    contextMenu.y = y;
+    contextMenu.height = menuItems.length * 20;
+
+    push();
+    fill(220);
+    rect(x, y, contextMenu.width, contextMenu.height);
+
+    for (let i = 0; i < menuItems.length; i++) {
+        menuItems[i].draw(x, y + i * 20);
+    }
+
     pop();
+    isContextMenuVisible = true;
 }
 
 function handleContextMenuClick(box) {
-    const clickedOption = Math.floor((mouseY - box.getPosition().y) / 25);
-    
-    if (selected && selected !== box) {
-        if (clickedOption === 0) { // 'Swap' was clicked
-            box.swap(selected);
-            selected = null;
-        } else if (clickedOption === 1) { // 'Cancel' was clicked
-            selected = null;
-        }
-    } else {
-        switch (clickedOption) {
-            case 0: // 'Select' was clicked
-                selected = box;
-                break;
-            case 1: // 'Lock' was clicked
-                box.toggleLock();
-                break;
-        }
-    }
+    const clickedOption = Math.floor((mouseY - contextMenu.y) / 20);
 
-    if (checkWin()) {
-        winMsg = riddles[riddleIndex].CustomWinMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
-        bgcolor1 = color1;
-        gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
+    // Check if the click was within the bounds of the clicked menu item
+    if (mouseX >= contextMenu.x && mouseX <= contextMenu.x + contextMenu.width &&
+        clickedOption >= 0 && clickedOption < menuItems.length) {
+        menuItems[clickedOption].executeAction(box);
+
+        if (checkWin()) {
+            winMsg = riddles[riddleIndex].CustomWinMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
+            bgcolor1 = color1;
+            gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
+        }
     }
 }
+
+
 
 function mousePressed() {
     interact();
