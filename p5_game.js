@@ -24,6 +24,8 @@ function setup() {
     positionXoffset = miniBoxSize;
     positionYoffset = miniBoxSize;
 
+    menuRowHeight = miniBoxSize * 1.5;
+
     let myCanvas = createCanvas(containerWidth, containerHeight);
 
     //let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
@@ -359,11 +361,11 @@ function draw() {
 }
 
 let isContextMenuVisible = false;
+let menuRowHeight = 0;
 let contextMenuBox = null;
 let contextMenu = {
     x: 0,
     y: 0,
-    width: 100,
     height: 0  // Will be updated when menu items are populated
 };
 
@@ -378,12 +380,12 @@ function interact() {
     // If a context menu is visible and we clicked within its bounds.
     if (isContextMenuVisible && isWithinContextMenu(mouseX, mouseY)) {
         handleContextMenuClick(contextMenuBox); // Use the stored contextMenuBox here.
-        isContextMenuVisible = false; 
+        isContextMenuVisible = false;
         contextMenuBox = null;
         redraw();
         return;
     }
-    
+
     // If we clicked outside the context menu, hide it.
     else if (isContextMenuVisible && !isWithinContextMenu(mouseX, mouseY)) {
         isContextMenuVisible = false; contextMenuBox = null;
@@ -401,7 +403,7 @@ function interact() {
 
                 contextMenuBounds.x = workingGrid[i].getPosition().x;
                 contextMenuBounds.y = workingGrid[i].getPosition().y;
-                contextMenuBounds.height = menuItems.length * 20;  // assuming each menu item takes 20 pixels in height
+                contextMenuBounds.height = menuItems.length * menuRowHeight;
                 isContextMenuVisible = true;
                 redraw();
                 break;
@@ -420,10 +422,11 @@ class MenuItem {
     }
 
     draw(x, y) {
+        noStroke();
         fill(0); // Black text
         textAlign(LEFT, TOP);
-        textSize(12);
-        text(this.text, x + 10, y);
+        textSize(miniBoxSize);
+        text(this.text, x + miniBoxSize, y);
     }
 
     executeAction(box) {
@@ -469,14 +472,14 @@ function displayContextMenu(x, y, box) {
 
     contextMenu.x = x;
     contextMenu.y = y;
-    contextMenu.height = menuItems.length * 20;
+    contextMenu.height = menuItems.length * menuRowHeight;
 
     push();
-    fill(220);
-    rect(x, y, contextMenu.width, contextMenu.height);
+    fill(111, 220, 111, 127);
+    rect(x, y, miniBoxSize * 5, contextMenu.height);
 
     for (let i = 0; i < menuItems.length; i++) {
-        menuItems[i].draw(x, y + i * 20);
+        menuItems[i].draw(x, y + i * menuRowHeight);
     }
 
     pop();
@@ -487,7 +490,7 @@ function handleContextMenuClick(box) {
     const clickedOption = Math.floor((mouseY - contextMenu.y) / 20);
 
     // Check if the click was within the bounds of the clicked menu item
-    if (mouseX >= contextMenu.x && mouseX <= contextMenu.x + contextMenu.width &&
+    if (mouseX >= contextMenu.x && mouseX <= contextMenu.x + miniBoxSize * 5 &&
         clickedOption >= 0 && clickedOption < menuItems.length) {
         menuItems[clickedOption].executeAction(box);
 
