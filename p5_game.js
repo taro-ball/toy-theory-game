@@ -475,7 +475,9 @@ function displayContextMenu(x, y, box) {
     contextMenu.height = menuItems.length * menuRowHeight;
 
     push();
-    fill(111, 220, 111, 127);
+    stroke(150);
+    strokeWeight(miniBoxSize / 16);
+    fill(240, 140);
     rect(x, y, miniBoxSize * 5, contextMenu.height);
 
     for (let i = 0; i < menuItems.length; i++) {
