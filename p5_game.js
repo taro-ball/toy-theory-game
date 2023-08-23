@@ -143,11 +143,10 @@ class Box {
         let yoffset = this.boxSize * 4.3;
         //gameLog(yoffset);
         if (this.initIndex !== this.currIndex && drawArrows) {
-            const startX = workingGrid[this.currIndex].getPosition().x + this.boxSize / 2; // this.initIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
-            const startY = workingGrid[this.currIndex].getPosition().y + this.boxSize / 2; //Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
-            //gameLog(workingGrid[this.initIndex].getPosition()[0]) ;
-            const endX = this.x + this.boxSize / 2; //this.currIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
-            const endY = this.y + this.boxSize / 2; //Math.floor(this.currIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
+            const startX = workingGrid[this.currIndex].getPosition().x + this.boxSize / 2;
+            const startY = workingGrid[this.currIndex].getPosition().y + this.boxSize / 2;
+            const endX = this.x + this.boxSize / 2;
+            const endY = this.y + this.boxSize / 2;
 
             // Calculate the angle
             const arrowAngle = Math.atan2(endY - startY, endX - startX);
@@ -342,32 +341,38 @@ function draw() {
     noStroke();
 }
 
+function draw() {
+    background(bgcolor1);
+    sourceGrids.forEach(drawGrid);
+    targetGrids.forEach(drawGrid);
+    drawGrid(workingGrid);
+
+    // Draw arrows after all boxes have been drawn
+    for (let box of workingGrid) {
+        box.drawArrow();
+    }
+
+    if (isContextMenuVisible && contextMenuBox !== null) {
+        const pos = contextMenuBox.getPosition();
+        displayContextMenu(pos.x, pos.y, contextMenuBox);
+    }
+}
+
+let isContextMenuVisible = false;
+let contextMenuBox = null;
+
 function interact() {
     if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
         for (let i = 0; i < workingGrid.length; i++) {
             if (workingGrid[i].contains(mouseX, mouseY) && workingGrid[i].isInteractive) {
                 if (mouseButton === LEFT) {
-                    if (selected !== null) {
-                        workingGrid[i].swap(selected);
-                        selected = null;
+                    if (isContextMenuVisible) {
+                        handleContextMenuClick(workingGrid[i]);
+                        isContextMenuVisible = false;
+                        redraw();
                     } else {
-                        selected = workingGrid[i];
+                        displayContextMenu(workingGrid[i].getPosition().x, workingGrid[i].getPosition().y, workingGrid[i]);
                     }
-                    redraw();
-
-                    if (checkWin()) {
-                        winMsg = riddles[riddleIndex].CustomWinMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
-                        bgcolor1 = color1;
-                        // textAlign(CENTER, CENTER);
-                        // textSize(440)
-                        // fill(colorTXT)
-                        // text("WIN!!!", miniBoxSize, miniBoxSize);
-                        gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
-                    }
-                    break;
-                } else if (mouseButton === RIGHT) {
-                    workingGrid[i].toggleLock();
-                    redraw();
                     break;
                 }
             }
@@ -375,7 +380,60 @@ function interact() {
     }
 }
 
+function displayContextMenu(x, y, box) {
+    isContextMenuVisible = true;
+    contextMenuBox = box;
+    
+    push();
+    fill(220); // Gray background for the menu
+    rect(x, y, 100, 50); // Menu rectangle. Adjust size as needed.
+    
+    fill(0); // Black text
+    textAlign(LEFT, TOP);
+    textSize(12);
+    
+    if (selected && selected !== box) {
+        text('Swap', x + 10, y + 10);
+    } else {
+        text('Select', x + 10, y + 10);
+    }
 
+    if (selected) {
+        text('Cancel', x + 10, y + 30);
+    } else {
+        text('Toggle Lock', x + 10, y + 30);
+    }
+    
+    pop();
+}
+
+function handleContextMenuClick(box) {
+    const clickedOption = Math.floor((mouseY - box.getPosition().y) / 25);
+    
+    if (selected && selected !== box) {
+        if (clickedOption === 0) { // 'Swap' was clicked
+            box.swap(selected);
+            selected = null;
+        } else if (clickedOption === 1) { // 'Cancel' was clicked
+            selected = null;
+        }
+    } else {
+        switch (clickedOption) {
+            case 0: // 'Select' was clicked
+                selected = box;
+                break;
+            case 1: // 'Lock' was clicked
+                box.toggleLock();
+                break;
+        }
+    }
+
+    if (checkWin()) {
+        winMsg = riddles[riddleIndex].CustomWinMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
+        bgcolor1 = color1;
+        gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
+    }
+}
 
 function mousePressed() {
     interact();
