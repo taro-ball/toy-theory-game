@@ -426,7 +426,7 @@ class MenuItem {
         fill(0); // Black text
         textAlign(LEFT, TOP);
         textSize(miniBoxSize);
-        text(this.text, x + miniBoxSize, y);
+        text(this.text, x + miniBoxSize, y + miniBoxSize / 3);
     }
 
     executeAction(box) {
