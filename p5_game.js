@@ -328,11 +328,6 @@ function draw() {
     targetGrids.forEach(drawGrid);
     drawGrid(workingGrid);
 
-    // Draw arrows after all boxes have been drawn
-    for (let box of workingGrid) {
-        box.drawArrow();
-    }
-
     strokeWeight(miniBoxSize / 8);
     for (let i = 0; i < myPatterns.length; i++) {
         stroke(color2);
@@ -341,13 +336,6 @@ function draw() {
         drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset - miniBoxSize / 3 + miniBoxSize * 4.15, miniBoxSize);
     }
     noStroke();
-}
-
-function draw() {
-    background(bgcolor1);
-    sourceGrids.forEach(drawGrid);
-    targetGrids.forEach(drawGrid);
-    drawGrid(workingGrid);
 
     // Draw arrows after all boxes have been drawn
     for (let box of workingGrid) {
