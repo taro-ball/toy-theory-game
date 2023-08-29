@@ -47,16 +47,9 @@ helpMessage = [`<b>How to play:</b>
 
 #️⃣ Use the grid at the bottom to present your answer.
 
-🕹️ To interact with a tile, click on it to bring up a context menu with the following options:
-
-- <b>Select</b>: Choose this tile.
-- <b>Swap</b>: If another tile is already selected, swap positions with this tile.
-- <b>Lock/Unlock</b>: Prevent or allow further interactions with this tile.
-- <b>Cancel</b>: Deselect the currently selected tile.
-
-If you are correct, you will receive a win message. If not, you can reset the arrangement and try again.`]
-
-//To view the result of your guess, click "Apply Map" Clicking 'Apply Map' again will reveal the original question.
+🕹️ Select a tile by clicking on it, then choose another tile to swap with. Repeat until you have arranged the tiles to match your guess.\
+If you are correct, you will receive a win message. If not, you can reset the arrangement and try again. \
+To view the result of your guess, click "Apply Map" Clicking 'Apply Map' again will reveal the original question.`]
 
 winMessages = [
     "You're a mastermind, a puzzle-solving wizard! 🔮🧩 Take a bow as the crowd goes wild and unicorns rain from the virtual sky! 🦄🌈",

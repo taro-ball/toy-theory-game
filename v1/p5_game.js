@@ -24,8 +24,6 @@ function setup() {
     positionXoffset = miniBoxSize;
     positionYoffset = miniBoxSize;
 
-    menuRowHeight = miniBoxSize * 1.5;
-
     let myCanvas = createCanvas(containerWidth, containerHeight);
 
     //let myCanvas = createCanvas(miniBoxSize * 46, miniBoxSize * 34);
@@ -145,10 +143,11 @@ class Box {
         let yoffset = this.boxSize * 4.3;
         //gameLog(yoffset);
         if (this.initIndex !== this.currIndex && drawArrows) {
-            const startX = workingGrid[this.currIndex].getPosition().x + this.boxSize / 2;
-            const startY = workingGrid[this.currIndex].getPosition().y + this.boxSize / 2;
-            const endX = this.x + this.boxSize / 2;
-            const endY = this.y + this.boxSize / 2;
+            const startX = workingGrid[this.currIndex].getPosition().x + this.boxSize / 2; // this.initIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
+            const startY = workingGrid[this.currIndex].getPosition().y + this.boxSize / 2; //Math.floor(this.initIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
+            //gameLog(workingGrid[this.initIndex].getPosition()[0]) ;
+            const endX = this.x + this.boxSize / 2; //this.currIndex % 4 * this.boxSize + xoffset + this.boxSize / 2;
+            const endY = this.y + this.boxSize / 2; //Math.floor(this.currIndex / 4) * this.boxSize + yoffset + this.boxSize / 2;
 
             // Calculate the angle
             const arrowAngle = Math.atan2(endY - startY, endX - startX);
@@ -219,12 +218,8 @@ class Box {
         }, 100);
     }
 
-    // contains(mouseX, mouseY) {
-    //     return (mouseX > this.x && mouseX < this.x + this.boxSize && mouseY > this.y && mouseY < this.y + this.boxSize);
-    // }
-
-    contains(touchX, touchY) {
-        return (touchX > this.x && touchX < this.x + this.boxSize && touchY> this.y && touchY < this.y + this.boxSize);
+    contains(mouseX, mouseY) {
+        return (mouseX > this.x && mouseX < this.x + this.boxSize && mouseY > this.y && mouseY < this.y + this.boxSize);
     }
 
     toggleLock() {
@@ -332,6 +327,11 @@ function draw() {
     targetGrids.forEach(drawGrid);
     drawGrid(workingGrid);
 
+    // Draw arrows after all boxes have been drawn
+    for (let box of workingGrid) {
+        box.drawArrow();
+    }
+
     strokeWeight(miniBoxSize / 8);
     for (let i = 0; i < myPatterns.length; i++) {
         stroke(color2);
@@ -340,65 +340,36 @@ function draw() {
         drawDecor(miniBoxSize * 3 + i * miniBoxSize * 5, positionYoffset - miniBoxSize / 3 + miniBoxSize * 4.15, miniBoxSize);
     }
     noStroke();
-
-    // Draw arrows after all boxes have been drawn
-    for (let box of workingGrid) {
-        box.drawArrow();
-    }
-
-    if (isContextMenuVisible && contextMenuBox !== null) {
-        const pos = contextMenuBox.getPosition();
-        displayContextMenu(pos.x, pos.y, contextMenuBox);
-    }
-}
-
-let isContextMenuVisible = false;
-let menuRowHeight = 0;
-let contextMenuBox = null;
-let contextMenu = {
-    x: 0,
-    y: 0,
-    height: 0  // Will be updated when menu items are populated
-};
-
-let contextMenuBounds = { x: 0, y: 0, width: 100, height: 0 };  // initial bounds for the context menu
-
-function isWithinContextMenu(x, y) {
-    return x >= contextMenuBounds.x && x <= contextMenuBounds.x + contextMenuBounds.width &&
-        y >= contextMenuBounds.y && y <= contextMenuBounds.y + contextMenuBounds.height;
 }
 
 function interact() {
-    // If a context menu is visible and we clicked within its bounds.
-    if (isContextMenuVisible && isWithinContextMenu(mouseX, mouseY)) {
-        handleContextMenuClick(contextMenuBox); // Use the stored contextMenuBox here.
-        isContextMenuVisible = false;
-        contextMenuBox = null;
-        redraw();
-        return;
-    }
-
-    // If we clicked outside the context menu, hide it.
-    else if (isContextMenuVisible && !isWithinContextMenu(mouseX, mouseY)) {
-        isContextMenuVisible = false; contextMenuBox = null;
-        redraw();
-        return;
-    }
-    // Handle other interactions when context menu isn't in the forefront.
     if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
         for (let i = 0; i < workingGrid.length; i++) {
             if (workingGrid[i].contains(mouseX, mouseY) && workingGrid[i].isInteractive) {
+                if (mouseButton === LEFT) {
+                    if (selected !== null) {
+                        workingGrid[i].swap(selected);
+                        selected = null;
+                    } else {
+                        selected = workingGrid[i];
+                    }
+                    redraw();
 
-                contextMenuBox = workingGrid[i];
-                const pos = contextMenuBox.getPosition();
-                displayContextMenu(pos.x, pos.y, contextMenuBox);
-
-                contextMenuBounds.x = workingGrid[i].getPosition().x;
-                contextMenuBounds.y = workingGrid[i].getPosition().y;
-                contextMenuBounds.height = menuItems.length * menuRowHeight;
-                isContextMenuVisible = true;
-                redraw();
-                break;
+                    if (checkWin()) {
+                        winMsg = riddles[riddleIndex].CustomWinMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
+                        bgcolor1 = color1;
+                        // textAlign(CENTER, CENTER);
+                        // textSize(440)
+                        // fill(colorTXT)
+                        // text("WIN!!!", miniBoxSize, miniBoxSize);
+                        gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
+                    }
+                    break;
+                } else if (mouseButton === RIGHT) {
+                    workingGrid[i].toggleLock();
+                    redraw();
+                    break;
+                }
             }
         }
     }
@@ -406,98 +377,9 @@ function interact() {
 
 
 
-
-class MenuItem {
-    constructor(text, action) {
-        this.text = text;
-        this.action = action;
-    }
-
-    draw(x, y) {
-        noStroke();
-        fill(0); // Black text
-        textAlign(LEFT, TOP);
-        textSize(miniBoxSize);
-        text(this.text, x + miniBoxSize, y + miniBoxSize / 3);
-    }
-
-    executeAction(box) {
-        this.action(box);
-    }
+function mousePressed() {
+    interact();
 }
-
-let menuItems = [];
-
-function populateMenuItems(box) {
-    menuItems = [];
-
-    if (!box.isLocked) {
-        menuItems.push(new MenuItem('Select', (box) => {
-            selected = box;
-        }));
-
-        if (selected && selected !== box) {
-            menuItems.push(new MenuItem('Swap', (box) => {
-                box.swap(selected);
-                selected = null;
-            }));
-        }
-
-        menuItems.push(new MenuItem('Lock', (box) => {
-            box.toggleLock();
-        }));
-    } else {
-        menuItems.push(new MenuItem('Unlock', (box) => {
-            box.toggleLock();
-        }));
-    }
-
-    if (selected) {
-        menuItems.push(new MenuItem('Cancel', (box) => {
-            selected = null;
-        }));
-    }
-}
-
-function displayContextMenu(x, y, box) {
-    populateMenuItems(box);
-
-    contextMenu.x = x;
-    contextMenu.y = y;
-    contextMenu.height = menuItems.length * menuRowHeight;
-
-    push();
-    stroke(150);
-    strokeWeight(miniBoxSize / 16);
-    fill(240, 140);
-    rect(x, y, miniBoxSize * 5, contextMenu.height);
-
-    for (let i = 0; i < menuItems.length; i++) {
-        menuItems[i].draw(x, y + i * menuRowHeight);
-    }
-
-    pop();
-    isContextMenuVisible = true;
-}
-
-function handleContextMenuClick(box) {
-    const clickedOption = Math.floor((mouseY - contextMenu.y) / 20);
-
-    // Check if the click was within the bounds of the clicked menu item
-    if (mouseX >= contextMenu.x && mouseX <= contextMenu.x + miniBoxSize * 5 &&
-        clickedOption >= 0 && clickedOption < menuItems.length) {
-        menuItems[clickedOption].executeAction(box);
-
-        if (checkWin()) {
-            winMsg = riddles[riddleIndex].CustomWinMessage ?? winMessages[Math.floor(Math.random() * winMessages.length)];
-            bgcolor1 = color1;
-            gameLog(`<H1>WIN!!!</H1><H3> ${winMsg} </H3>`);
-        }
-    }
-}
-
-
-
 // keep it commented until figure out touch controls
 // function touchStarted() {
 //     interact();
