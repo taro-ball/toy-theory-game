@@ -219,12 +219,8 @@ class Box {
         }, 100);
     }
 
-    // contains(mouseX, mouseY) {
-    //     return (mouseX > this.x && mouseX < this.x + this.boxSize && mouseY > this.y && mouseY < this.y + this.boxSize);
-    // }
-
-    contains(touchX, touchY) {
-        return (touchX > this.x && touchX < this.x + this.boxSize && touchY> this.y && touchY < this.y + this.boxSize);
+    contains(mouseX, mouseY) {
+        return (mouseX > this.x && mouseX < this.x + this.boxSize && mouseY > this.y && mouseY < this.y + this.boxSize);
     }
 
     toggleLock() {
@@ -498,6 +494,9 @@ function handleContextMenuClick(box) {
 
 
 
+function mousePressed() {
+    interact();
+}
 // keep it commented until figure out touch controls
 // function touchStarted() {
 //     interact();
